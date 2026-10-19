@@ -38,6 +38,7 @@ const ICONS = {
   search:'<circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path>',
   moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>',
   logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path>',
+  users:'<circle cx="9" cy="8" r="4"></circle><path d="M2 21c1-4 3.5-6 7-6s6 2 7 6"></path><path d="M16 4a4 4 0 0 1 0 8M22 21c-.5-3-2-5-4-5.7"></path>',
   shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>',
 };
 export const icon = (name, size = 20) => '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[name] || ICONS.link)+'</svg>';
@@ -66,7 +67,7 @@ export function initChrome(){
     document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark'); store('hr-theme', dark ? 'light' : 'dark');
   });
   $('menuBtn')?.addEventListener('click', () => {
-    const open = $('side').classList.toggle('open');
+    const open = $($('menuBtn').getAttribute('aria-controls')).classList.toggle('open');
     $('menuBtn').setAttribute('aria-expanded', String(open));
   });
   // ลิงก์ที่ยังไม่มีปลายทาง ไม่ให้เด้งขึ้นบนสุดของหน้า

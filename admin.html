@@ -13,121 +13,181 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/admin.css">
 <script src="assets/js/theme.js"></script>
 <script type="module" src="assets/js/admin.js"></script>
 </head>
 <body>
-<a class="skip" href="#content">ข้ามไปยังเนื้อหาหลัก</a>
-<header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="index.html">
-      <span class="logo has-img"><img src="assets/img/logo.webp" alt="โลโก้กระทรวงสาธารณสุข" width="56" height="56"></span>
-      <div>
-        <span class="brand-name kanit">กลุ่มงานบริหารทรัพยากรบุคคล</span>
-        <span class="brand-sub">สำนักงานเขตสุขภาพที่ 1</span>
-      </div>
-    </a>
-    <div class="tools">
-      <button type="button" class="icon-btn" id="themeBtn" aria-label="สลับโหมดสว่าง/มืด" data-icon="moon"></button>
-      <button type="button" class="user-chip" id="logoutBtn" hidden><span data-icon="logout" data-size="18"></span>ออกจากระบบ</button>
+<div class="demo-bar" id="demoBar" hidden><b>โหมดตัวอย่าง</b> · ข้อมูลทั้งหมดเป็นข้อมูลจำลอง ไม่บันทึกจริง และหายเมื่อรีเฟรชหน้า เมื่อตั้งค่า Firebase แล้วโหมดนี้จะปิดเอง</div>
+
+<!-- ก่อนเข้าระบบ / รออนุมัติ / ยังไม่ตั้งค่า -->
+<div class="auth" id="gateWrap">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <span class="logo has-img"><img src="assets/img/logo.webp" alt="โลโก้กระทรวงสาธารณสุข" width="48" height="48"></span>
+      <div><strong class="kanit">หลังบ้าน</strong><br><span class="muted small">กลุ่มงานบริหารทรัพยากรบุคคล</span></div>
     </div>
+    <p class="alert warn" id="gate" role="status" aria-live="polite">กำลังตรวจสอบสิทธิ์…</p>
+    <button type="button" class="btn btn-block" id="demoBtn" hidden>ลองใช้หลังบ้าน (ข้อมูลตัวอย่าง)</button>
+    <button type="button" class="btn btn-soft btn-block" id="gateLogout" hidden>ออกจากระบบ</button>
+    <p class="auth-foot"><a href="index.html">กลับหน้าเว็บไซต์</a></p>
   </div>
-</header>
-<main class="wrap admin-wrap" id="content" tabindex="-1">
-  <p class="alert warn" id="gate" role="status" aria-live="polite">กำลังตรวจสอบสิทธิ์…</p>
-  <div><button type="button" class="btn" id="demoBtn" hidden>ลองใช้หลังบ้าน (ข้อมูลตัวอย่าง)</button></div>
-  <p class="alert warn" id="demoBar" hidden>โหมดตัวอย่าง: ข้อมูลทั้งหมดเป็นข้อมูลจำลอง ไม่บันทึกจริง และหายเมื่อรีเฟรชหน้า เมื่อตั้งค่า Firebase แล้วโหมดนี้จะปิดเอง</p>
+</div>
 
-  <div id="app" hidden>
-    <div class="admin-wrap">
-      <div class="admin-head">
-        <div>
-          <h1 class="kanit">หลังบ้าน</h1>
-          <span class="who"><span id="who"></span> · <span id="roleText"></span></span>
-        </div>
-        <div class="tabs" role="tablist" aria-label="เมนูหลังบ้าน" id="views">
-          <button type="button" role="tab" class="tab c0" data-view="news" aria-selected="true"><span class="dot" aria-hidden="true"></span>ข่าว</button>
-          <button type="button" role="tab" class="tab c4" data-view="users" aria-selected="false" data-admin hidden><span class="dot" aria-hidden="true"></span>ผู้ใช้</button>
-          <button type="button" role="tab" class="tab c1" data-view="audit" aria-selected="false" data-admin hidden><span class="dot" aria-hidden="true"></span>บันทึกการใช้งาน</button>
-        </div>
+<div class="admin" id="app" hidden>
+  <aside class="aside" id="aside" aria-label="เมนูหลังบ้าน">
+    <a class="brand kanit" href="index.html"><span class="logo has-img"><img src="assets/img/logo.webp" alt="โลโก้กระทรวงสาธารณสุข" width="48" height="48"></span><span>หลังบ้าน<br><small>กลุ่มงานบริหารทรัพยากรบุคคล</small></span></a>
+    <span class="group">จัดการเนื้อหา</span>
+    <a class="nav" href="#overview" data-view="overview" aria-current="page"><span data-icon="home" data-size="18"></span>ภาพรวม</a>
+    <a class="nav" href="#news" data-view="news"><span data-icon="doc" data-size="18"></span>ข่าว/หนังสือเวียน</a>
+    <span class="group" data-admin>ผู้ดูแลระบบ</span>
+    <a class="nav" href="#users" data-view="users" data-admin><span data-icon="users" data-size="18"></span>ผู้ใช้งาน</a>
+    <a class="nav" href="#audit" data-view="audit" data-admin><span data-icon="shield" data-size="18"></span>บันทึกความปลอดภัย</a>
+    <span class="group">บัญชี</span>
+    <a class="nav" href="#profile" data-view="profile"><span data-icon="user" data-size="18"></span>โปรไฟล์ของฉัน</a>
+    <a class="nav" href="index.html" target="_blank" rel="noopener"><span data-icon="link" data-size="18"></span>ดูหน้าเว็บไซต์</a>
+    <form><button class="logout" type="button" id="logoutBtn"><span data-icon="logout" data-size="18"></span>ออกจากระบบ</button></form>
+  </aside>
+
+  <div class="content">
+    <header class="topbar">
+      <div class="row-actions">
+        <button type="button" class="icon-btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="aside" aria-label="เมนู"><span data-icon="checklist" data-size="20"></span></button>
+        <h1 class="kanit" id="viewTitle">ภาพรวม</h1>
       </div>
+      <div class="who">
+        <span><span id="who"></span> · <span class="badge" id="roleBadge"></span></span>
+        <button type="button" class="icon-btn" id="themeBtn" aria-label="สลับโหมดสว่าง/มืด" data-icon="moon"></button>
+      </div>
+    </header>
 
-      <section class="panel-box" id="v-news" aria-label="จัดการข่าว">
-        <div class="bar">
-          <label class="sr-only" for="nq">ค้นหาข่าว</label>
-          <input class="input" id="nq" type="search" maxlength="100" placeholder="ค้นหาชื่อเรื่อง เลขที่ หรือหน่วยงาน">
-          <div class="acts">
-            <button type="button" class="btn-soft" id="seedBtn" hidden>นำเข้าข่าวตัวอย่าง 12 รายการ</button>
-            <button type="button" class="btn" id="addBtn">+ เพิ่มข่าว</button>
-          </div>
+    <main class="page" id="content" tabindex="-1">
+      <!-- ภาพรวม -->
+      <section class="view" id="v-overview" aria-labelledby="viewTitle">
+        <div class="flash"><div class="alert alert-ok" id="welcome"></div></div>
+        <div class="stats">
+          <button type="button" class="stat c0" data-go="news" data-filter-status=""><span class="ico" data-icon="doc" data-size="22"></span><span><b id="sAll">0</b><span>ข่าวทั้งหมด</span></span></button>
+          <button type="button" class="stat c2" data-go="news" data-filter-status="on"><span class="ico" data-icon="doccheck" data-size="22"></span><span><b id="sPub">0</b><span>เผยแพร่อยู่</span></span></button>
+          <button type="button" class="stat c3" data-go="news" data-filter-urg="urgent"><span class="ico" data-icon="bulb" data-size="22"></span><span><b id="sUrg">0</b><span>ด่วน/ด่วนที่สุด</span></span></button>
+          <button type="button" class="stat c4" data-go="news" data-filter-status="off"><span class="ico" data-icon="download" data-size="22"></span><span><b id="sHid">0</b><span>ซ่อนอยู่</span></span></button>
+          <button type="button" class="stat c1" data-go="users" data-admin><span class="ico" data-icon="users" data-size="22"></span><span><b id="sPend">0</b><span>ผู้ใช้รออนุมัติ</span></span></button>
         </div>
-        <p class="hint" id="newsCount"></p>
-        <div class="table-scroll">
-          <table class="data">
-            <thead><tr><th>วันที่</th><th>หมวด</th><th>เรื่อง</th><th>ความเร่งด่วน</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+        <div class="alert alert-warn" id="todoBox" hidden>
+          <strong>ควรแก้ก่อนเผยแพร่</strong>
+          <ul class="todo" id="todoList"></ul>
+        </div>
+        <section class="panel">
+          <div class="toolbar"><h2>แก้ไขล่าสุด</h2><button type="button" class="btn btn-sm" data-add>+ เพิ่มข่าว</button></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>เรื่อง</th><th>หมวด</th><th>วันที่</th><th>สถานะ</th></tr></thead>
+              <tbody id="recentBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- ข่าว/หนังสือเวียน -->
+      <section class="view" id="v-news" hidden>
+        <section class="panel">
+          <div class="toolbar">
+            <form id="filterForm">
+              <div class="field"><label class="label" for="fq">ค้นหา</label><input class="input" id="fq" type="search" maxlength="100" placeholder="ชื่อเรื่อง / เลขที่ / หน่วยงาน"></div>
+              <div class="field"><label class="label" for="fcat">หมวด</label><select class="input" id="fcat"></select></div>
+              <div class="field"><label class="label" for="furg">ความเร่งด่วน</label><select class="input" id="furg"><option value="">ทั้งหมด</option><option value="urgent">ด่วน/ด่วนที่สุด</option><option value="most">ด่วนที่สุด</option><option value="very">ด่วนมาก</option><option value="none">ปกติ</option></select></div>
+              <div class="field"><label class="label" for="fst">สถานะ</label><select class="input" id="fst"><option value="">ทั้งหมด</option><option value="on">เผยแพร่</option><option value="off">ซ่อน</option></select></div>
+              <button class="btn btn-soft" type="reset" id="filterReset">ล้างตัวกรอง</button>
+            </form>
+            <div class="row-actions">
+              <button type="button" class="btn btn-soft" id="seedBtn" hidden>นำเข้าข่าวตัวอย่าง 12 รายการ</button>
+              <button type="button" class="btn" data-add>+ เพิ่มข่าว</button>
+            </div>
+          </div>
+        </section>
+        <p class="muted small" id="newsCount"></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>วันที่</th><th>เรื่อง</th><th>หมวด</th><th>สถานะ</th><th>แก้ไขโดย</th><th>จัดการ</th></tr></thead>
             <tbody id="newsBody"></tbody>
           </table>
         </div>
       </section>
 
-      <section class="panel-box" id="v-users" aria-label="จัดการผู้ใช้" hidden>
-        <p class="hint" id="pendingCount"></p>
-        <div class="table-scroll">
-          <table class="data">
+      <!-- ผู้ใช้งาน -->
+      <section class="view" id="v-users" hidden>
+        <p class="muted small" id="pendingCount"></p>
+        <div class="table-wrap">
+          <table>
             <thead><tr><th>ชื่อ</th><th>อีเมล</th><th>สมัครเมื่อ</th><th>สถานะ</th><th>สิทธิ์</th><th>จัดการ</th></tr></thead>
             <tbody id="usersBody"></tbody>
           </table>
         </div>
       </section>
 
-      <section class="panel-box" id="v-audit" aria-label="บันทึกการใช้งาน" hidden>
-        <div class="bar"><p class="hint">200 รายการล่าสุด</p><button type="button" class="btn-soft" id="auditReload">โหลดใหม่</button></div>
-        <div class="table-scroll">
-          <table class="data">
+      <!-- บันทึกความปลอดภัย -->
+      <section class="view" id="v-audit" hidden>
+        <div class="toolbar"><p class="muted small">200 รายการล่าสุด · บันทึกเพิ่มได้อย่างเดียว แก้ไขหรือลบไม่ได้</p><button type="button" class="btn btn-soft btn-sm" id="auditReload">โหลดใหม่</button></div>
+        <div class="table-wrap">
+          <table>
             <thead><tr><th>เวลา</th><th>ผู้ใช้</th><th>การกระทำ</th><th>รายการ</th></tr></thead>
             <tbody id="auditBody"></tbody>
           </table>
         </div>
       </section>
-    </div>
-  </div>
-</main>
 
-<dialog class="detail" id="newsDlg" aria-labelledby="formTitle">
-  <form class="detail-in form" id="newsForm" novalidate>
-    <h2 id="formTitle">เพิ่มข่าว</h2>
+      <!-- โปรไฟล์ของฉัน -->
+      <section class="view" id="v-profile" hidden>
+        <section class="panel">
+          <h2>ข้อมูลบัญชี</h2>
+          <dl class="profile">
+            <dt>ชื่อ-สกุล</dt><dd id="pName"></dd>
+            <dt>หน่วยงาน</dt><dd id="pOrg"></dd>
+            <dt>อีเมล</dt><dd id="pEmail"></dd>
+            <dt>สิทธิ์</dt><dd id="pRole"></dd>
+            <dt>สมัครเมื่อ</dt><dd id="pCreated"></dd>
+          </dl>
+        </section>
+        <section class="panel">
+          <h2>เปลี่ยนรหัสผ่าน</h2>
+          <p class="hint">ระบบจะส่งลิงก์ตั้งรหัสผ่านใหม่ไปที่อีเมลของคุณ เพื่อยืนยันว่าเป็นเจ้าของบัญชีจริง</p>
+          <p class="alert" id="pwMsg" role="status" hidden></p>
+          <div><button type="button" class="btn" id="pwBtn">ส่งลิงก์เปลี่ยนรหัสผ่าน</button></div>
+        </section>
+      </section>
+    </main>
+  </div>
+</div>
+
+<dialog class="dlg" id="newsDlg" aria-labelledby="formTitle">
+  <form class="dlg-in form" id="newsForm" novalidate>
+    <h2 class="kanit" id="formTitle">เพิ่มข่าว</h2>
     <p class="alert" id="formMsg" role="alert" hidden></p>
-    <div class="grid2">
+    <div class="form-grid">
       <div class="field"><label class="label" for="nCat">หมวด</label><select class="input" id="nCat"></select></div>
       <div class="field"><label class="label" for="nDate">วันที่</label><input class="input" id="nDate" type="date" required></div>
-    </div>
-    <div class="field"><label class="label" for="nTitle">ชื่อเรื่อง</label><textarea class="input" id="nTitle" rows="3" maxlength="300" required></textarea></div>
-    <div class="grid2">
+      <div class="field full"><label class="label" for="nTitle">ชื่อเรื่อง</label><textarea class="input" id="nTitle" rows="3" maxlength="300" required></textarea><span class="hint">ไม่เกิน 300 ตัวอักษร</span></div>
       <div class="field"><label class="label" for="nNo">เลขที่หนังสือ</label><input class="input" id="nNo" type="text" maxlength="120"></div>
       <div class="field"><label class="label" for="nFrom">จากหน่วยงาน</label><input class="input" id="nFrom" type="text" maxlength="200"></div>
-    </div>
-    <div class="grid2">
       <div class="field"><label class="label" for="nUrg">ความเร่งด่วน</label>
         <select class="input" id="nUrg"><option value="">ปกติ</option><option value="very">ด่วนมาก</option><option value="most">ด่วนที่สุด</option></select></div>
       <div class="field"><label class="label" for="nDeadline">วันปิดรับ (ถ้ามี)</label><input class="input" id="nDeadline" type="text" maxlength="100" placeholder="เช่น 31 ต.ค. 2569"></div>
+      <label class="check field full"><input type="checkbox" id="nPub"> <span>เผยแพร่บนหน้าเว็บ</span></label>
     </div>
-    <label class="check"><input type="checkbox" id="nPub"> <span>เผยแพร่บนหน้าเว็บ</span></label>
-    <div class="detail-foot">
-      <button type="button" class="btn-soft" id="formCancel">ยกเลิก</button>
+    <div class="dlg-foot">
+      <button type="button" class="btn btn-soft" id="formCancel">ยกเลิก</button>
       <button type="submit" class="btn" id="formSave">บันทึก</button>
     </div>
   </form>
 </dialog>
 
-<dialog class="detail" id="delDlg" aria-labelledby="delTitle">
-  <div class="detail-in">
-    <h2 id="delTitle">ลบข่าวนี้?</h2>
+<dialog class="dlg" id="delDlg" aria-labelledby="delTitle">
+  <div class="dlg-in">
+    <h2 class="kanit" id="delTitle">ลบข่าวนี้?</h2>
     <p id="delText"></p>
     <p class="hint">ลบแล้วกู้คืนไม่ได้ ถ้าเพียงไม่ต้องการให้แสดงบนเว็บ ให้กดปุ่มซ่อนแทน</p>
-    <div class="detail-foot">
-      <button type="button" class="btn-soft" id="delCancel">ยกเลิก</button>
-      <button type="button" class="btn danger" id="delOk">ลบข่าว</button>
+    <div class="dlg-foot">
+      <button type="button" class="btn btn-soft" id="delCancel">ยกเลิก</button>
+      <button type="button" class="btn btn-danger" id="delOk">ลบข่าว</button>
     </div>
   </div>
 </dialog>

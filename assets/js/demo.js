@@ -10,7 +10,7 @@ export function demoBackend(){
   const store = {
     news: new Map(SEED_NEWS.map((s, i) => [s.id, {
       cat: s.cat, title: s.title, no: s.no, from: s.from, urg: s.urg, date: s.date, deadline: s.deadline,
-      published: i !== 7, createdBy: me.uid, createdAt: daysAgo(5), updatedBy: me.uid, updatedAt: daysAgo(5),
+      published: i !== 7, createdBy: me.uid, createdAt: daysAgo(5), updatedBy: i % 3 ? me.uid : 'demo-2', updatedByName: i % 3 ? me.displayName : 'สมชาย ตัวอย่าง', updatedAt: daysAgo(5 - i % 5),
     }])),
     users: new Map([
       [me.uid, { email: me.email, name: me.displayName, org: 'กลุ่มงานบริหารทรัพยากรบุคคล', status: 'approved', role: 'admin', createdAt: daysAgo(30) }],
@@ -57,6 +57,7 @@ export function demoBackend(){
   const A = {
     onAuthStateChanged(auth, cb){ listener = cb; setTimeout(() => cb(me), 0); return () => { listener = null; }; },
     async signOut(){ listener?.(null); },
+    async sendPasswordResetEmail(){},
   };
   return { auth: {}, db: {}, A, F };
 }

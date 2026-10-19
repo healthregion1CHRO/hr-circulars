@@ -29,8 +29,8 @@ service cloud.firestore {
 
     // ---------- ข่าว ----------
     function validNews(d) {
-      return d.keys().hasOnly(['cat', 'title', 'no', 'from', 'urg', 'date', 'deadline', 'published', 'createdBy', 'createdAt', 'updatedBy', 'updatedAt'])
-        && d.keys().hasAll(['cat', 'title', 'no', 'from', 'urg', 'date', 'deadline', 'published', 'createdBy', 'createdAt', 'updatedBy', 'updatedAt'])
+      return d.keys().hasOnly(['cat', 'title', 'no', 'from', 'urg', 'date', 'deadline', 'published', 'createdBy', 'createdAt', 'updatedBy', 'updatedByName', 'updatedAt'])
+        && d.keys().hasAll(['cat', 'title', 'no', 'from', 'urg', 'date', 'deadline', 'published', 'createdBy', 'createdAt', 'updatedBy', 'updatedByName', 'updatedAt'])
         && d.cat is int && d.cat >= 0 && d.cat <= 4
         && str(d.title, 1, 300)
         && str(d.no, 0, 120)
@@ -40,6 +40,7 @@ service cloud.firestore {
         && str(d.deadline, 0, 100)
         && d.published is bool
         // ผู้แก้ไขล่าสุดต้องเป็นตัวเอง และเวลาต้องเป็นเวลาเซิร์ฟเวอร์ (ปลอมไม่ได้)
+        && str(d.updatedByName, 1, 100)
         && d.updatedBy == request.auth.uid
         && d.updatedAt == request.time;
     }
