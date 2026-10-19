@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>หนังสือเวียน กลุ่มงานบริหารทรัพยากรบุคคล</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="หนังสือเวียน ประกาศ ข่าวรับสมัครงาน และข่าวโอนย้ายของกลุ่มงานบริหารทรัพยากรบุคคล สำนักงานเขตสุขภาพที่ 1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+// ใช้ธีม/ขนาดตัวอักษรที่บันทึกไว้ก่อนแสดงผล (ป้องกันหน้ากระพริบ)
+(function () {
+  try {
+    var t = localStorage.getItem('hr-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+    var s = localStorage.getItem('hr-size');
+    if (s === 'sm' || s === 'lg') document.documentElement.setAttribute('data-size', s);
+  } catch (e) {}
+})();
+</script>
+<style>
+/* Layout: หัวเว็บขาว → แถบ hero ชมพูพร้อมรูปทรง → การ์ดบริการด่วนลอยทับขอบ hero → เมนูข้าง + แท็บ/ตัวกรอง/การ์ดข่าว */
+:root{
+  color-scheme: light;
+  --ground:#FBF6F8; --surface:#FFFFFF; --surface-2:#F8EEF2; --line:#F0DDE5; --line-strong:#E4C9D4;
+  --text:#2A1621; --muted:#6B4E5C; --link:#BE185D; --link-hover:#9D174D;
+  --accent:#F9C6DA; --on-accent:#4A0E2B; --hero-sub:#5C1A3A;
+  --hero-bg:#F9C6DA; --hero-ink:#4A0E2B; --shape1:#C4B5FD; --shape2:#FDE68A; --shape3:#A7F3D0; --shape-op:.85;
+  --chip-dark:#2A1621; --on-chip-dark:#FFFFFF;
+  --urgent:#DC2626; --on-urgent:#FFFFFF; --very-bg:#FFE7D1; --very-text:#9A3412;
+  --new-bg:#FBBF24; --new-text:#422006; --deadline:#B91C1C;
+  --footer-bg:#3B0D24; --footer-text:#F3DCE7; --footer-head:#FFFFFF;
+  --logo-bg:#E6F4EA; --logo-ink:#14532D; --logo-ring:#15803D;
+  --nav-cur-ico:rgba(255,255,255,.55); --overlay:rgba(42,22,33,.45);
+  --shadow:0 2px 10px rgba(90,20,55,0.07); --shadow-lift:0 8px 24px rgba(90,20,55,0.12);
+  --focus:#BE185D;
+  --c0-solid:#BE185D; --c0-tint:#FDE7F0; --c0-text:#9D174D;
+  --c1-solid:#7C3AED; --c1-tint:#F1E8FF; --c1-text:#5B21B6;
+  --c2-solid:#059669; --c2-tint:#E3F7EF; --c2-text:#065F46;
+  --c3-solid:#EA580C; --c3-tint:#FFF0E5; --c3-text:#9A3412;
+  --c4-solid:#0284C7; --c4-tint:#E3F3FC; --c4-text:#075985;
+  --on-solid:#FFFFFF;
+  --font-display:'Kanit','IBM Plex Sans Thai','Leelawadee UI',Tahoma,sans-serif;
+  --font-body:'IBM Plex Sans Thai','Noto Sans Thai','Leelawadee UI',Tahoma,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --ground:#170E13; --surface:#22161C; --surface-2:#2C1D25; --line:#3A2731; --line-strong:#4D3440;
+    --text:#F7EAF0; --muted:#CDB2BF; --link:#F9A8CB; --link-hover:#FBCFE0;
+    --hero-bg:#3A1428; --hero-ink:#FCE7F0; --hero-sub:#E9C2D3; --shape1:#6D4BC4; --shape2:#8A6A1F; --shape3:#1F7A5C; --shape-op:.35;
+    --chip-dark:#F7EAF0; --on-chip-dark:#2A1621;
+    --very-bg:#4A2510; --very-text:#FFD3B0; --deadline:#FCA5A5;
+    --footer-bg:#0F080C; --footer-text:#E9D3DE;
+    --logo-bg:#0E3A2C; --logo-ink:#BBF7D0; --logo-ring:#22C55E;
+    --nav-cur-ico:rgba(255,255,255,.45); --overlay:rgba(0,0,0,.6);
+    --shadow:0 2px 10px rgba(0,0,0,0.35); --shadow-lift:0 8px 24px rgba(0,0,0,0.45);
+    --focus:#F9A8CB;
+    --c0-solid:#EC4899; --c0-tint:#4A1730; --c0-text:#FBCFE0;
+    --c1-solid:#8B5CF6; --c1-tint:#2E1F4D; --c1-text:#DDD0FF;
+    --c2-solid:#059669; --c2-tint:#0E3A2C; --c2-text:#A7F3D0;
+    --c3-solid:#EA580C; --c3-tint:#4A2510; --c3-text:#FFD3B0;
+    --c4-solid:#0284C7; --c4-tint:#0C3048; --c4-text:#BAE6FD;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --ground:#170E13; --surface:#22161C; --surface-2:#2C1D25; --line:#3A2731; --line-strong:#4D3440;
+  --text:#F7EAF0; --muted:#CDB2BF; --link:#F9A8CB; --link-hover:#FBCFE0;
+  --hero-bg:#3A1428; --hero-ink:#FCE7F0; --hero-sub:#E9C2D3; --shape1:#6D4BC4; --shape2:#8A6A1F; --shape3:#1F7A5C; --shape-op:.35;
+  --chip-dark:#F7EAF0; --on-chip-dark:#2A1621;
+  --very-bg:#4A2510; --very-text:#FFD3B0; --deadline:#FCA5A5;
+  --footer-bg:#0F080C; --footer-text:#E9D3DE;
+  --logo-bg:#0E3A2C; --logo-ink:#BBF7D0; --logo-ring:#22C55E;
+  --nav-cur-ico:rgba(255,255,255,.45); --overlay:rgba(0,0,0,.6);
+  --shadow:0 2px 10px rgba(0,0,0,0.35); --shadow-lift:0 8px 24px rgba(0,0,0,0.45);
+  --focus:#F9A8CB;
+  --c0-solid:#EC4899; --c0-tint:#4A1730; --c0-text:#FBCFE0;
+  --c1-solid:#8B5CF6; --c1-tint:#2E1F4D; --c1-text:#DDD0FF;
+  --c2-solid:#059669; --c2-tint:#0E3A2C; --c2-text:#A7F3D0;
+  --c3-solid:#EA580C; --c3-tint:#4A2510; --c3-text:#FFD3B0;
+  --c4-solid:#0284C7; --c4-tint:#0C3048; --c4-text:#BAE6FD;
+}
+html{font-size:100%}
+html[data-size="sm"]{font-size:93.75%}
+html[data-size="lg"]{font-size:112.5%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--text);font-family:var(--font-body);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--link)} a:hover{color:var(--link-hover)}
+img,svg{max-width:100%}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:12px;top:-60px;background:var(--surface);color:var(--text);padding:10px 16px;border-radius:999px;z-index:20;box-shadow:var(--shadow-lift)}
+.skip:focus{top:calc(12px + env(safe-area-inset-top,0px))}
+.wrap{max-width:1720px;margin:0 auto;padding-left:max(24px, env(safe-area-inset-left, 0px));padding-right:max(24px, env(safe-area-inset-right, 0px))}
+.kanit{font-family:var(--font-display)}
+
+/* header */
+.site-header{background:var(--surface);border-bottom:1px solid var(--line)}
+.site-header .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:14px;color:var(--text);text-decoration:none;min-width:0}
+.brand:hover{color:var(--text)}
+.logo{width:56px;height:56px;border-radius:50%;background:var(--logo-bg);color:var(--logo-ink);border:3px solid var(--logo-ring);display:flex;align-items:center;justify-content:center;flex:none}
+.brand-name{font-weight:600;font-size:1.3rem;line-height:1.25;display:block}
+.brand-sub{font-size:.9rem;color:var(--muted)}
+.tools{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.gsearch{display:flex;align-items:center;gap:8px}
+.input{height:48px;border:1px solid var(--line-strong);border-radius:999px;padding:0 20px;background:var(--surface-2);font-size:.95rem;width:100%}
+.gsearch .input{width:340px;max-width:100%}
+.icon-btn{height:52px;min-width:52px;border:0;border-radius:999px;background:var(--accent);color:var(--on-accent);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0 14px}
+.seg{display:flex;gap:4px;background:var(--surface-2);border-radius:999px;padding:5px}
+.seg button{min-width:46px;height:42px;border:0;border-radius:999px;background:transparent;cursor:pointer;color:var(--text)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);font-weight:700}
+.seg .sz-sm{font-size:.85rem}
+.seg .sz-lg{font-size:1.15rem}
+.user-chip{display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 20px;border-radius:999px;background:var(--surface-2);color:var(--text);text-decoration:none;font-weight:600;font-size:.95rem}
+.user-chip:hover{color:var(--text);background:var(--line)}
+.menu-toggle{display:none}
+
+/* hero */
+.hero{background:var(--hero-bg);color:var(--hero-ink);position:relative;overflow:hidden}
+.hero .shape{position:absolute;pointer-events:none;opacity:var(--shape-op)}
+.hero .s1{width:380px;height:380px;border-radius:50%;background:var(--shape1);right:-120px;top:-120px}
+.hero .s2{width:230px;height:230px;border-radius:50%;background:var(--shape2);right:200px;top:75px}
+.hero .s3{width:190px;height:190px;border-radius:44px;background:var(--shape3);right:-30px;top:190px;transform:rotate(18deg)}
+.hero .wrap{position:relative;padding-block:44px 136px;display:flex;flex-direction:column;gap:10px}
+.crumb{font-size:.95rem;color:var(--hero-sub)}
+.hero .crumb a{color:var(--hero-ink)}
+.hero h1{margin:0;font-weight:700;font-size:2.75rem;line-height:1.25;text-wrap:balance}
+.hero p{margin:0;font-size:1.12rem;font-weight:700;color:var(--hero-sub);max-width:34em}
+
+/* quick services */
+.quick{margin-top:-80px;position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:20px}
+.qcard{background:var(--surface);border-radius:22px;padding:24px 22px;display:flex;gap:18px;align-items:center;text-decoration:none;color:var(--text);box-shadow:var(--shadow-lift);transition:transform .15s}
+.qcard:hover{color:var(--text);transform:translateY(-2px)}
+.qicon{width:64px;height:64px;border-radius:18px;background:var(--solid);color:var(--on-solid);display:flex;align-items:center;justify-content:center;flex:none}
+.qtext{display:flex;flex-direction:column;line-height:1.35;min-width:0}
+.qtext strong{font-weight:600;font-size:1.05rem}
+.qtext span{font-size:.85rem;color:var(--muted)}
+
+/* layout */
+.layout{display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;padding-block:30px}
+.side{flex:1 1 300px;display:flex;flex-direction:column;gap:20px}
+.main{flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.panel{background:var(--surface);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow)}
+.panel-title{font-size:.88rem;font-weight:600;color:var(--muted);padding:6px 12px;margin:0}
+.nav-link{display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:16px;color:var(--text);text-decoration:none;font-size:1.05rem}
+.nav-link:hover{background:var(--surface-2);color:var(--text)}
+.nav-link[aria-current="page"]{background:var(--accent);color:var(--on-accent);font-weight:700}
+.nav-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none;background:var(--tint);color:var(--ctext)}
+.nav-link[aria-current="page"] .nav-ico{background:var(--nav-cur-ico);color:var(--on-accent)}
+
+/* tabs & toolbar */
+.tabs{display:flex;flex-wrap:wrap;gap:10px}
+.tab{min-height:54px;padding:6px 18px 6px 16px;border-radius:999px;font-size:1rem;cursor:pointer;display:flex;align-items:center;gap:10px;background:var(--surface);color:var(--text);border:1px solid var(--line);font-weight:600}
+.tab .dot{width:11px;height:11px;border-radius:50%;background:var(--solid)}
+.tab .count{font-size:.78rem;min-width:26px;padding:0 8px;border-radius:999px;font-weight:700;background:var(--tint);color:var(--ctext);font-variant-numeric:tabular-nums;text-align:center}
+.tab[aria-selected="true"]{background:var(--solid);border-color:var(--solid);color:var(--on-solid);font-weight:700;box-shadow:var(--shadow-lift)}
+.tab[aria-selected="true"] .dot{background:var(--on-solid)}
+.tab[aria-selected="true"] .count{background:rgba(255,255,255,.25);color:var(--on-solid)}
+.c0{--solid:var(--c0-solid);--tint:var(--c0-tint);--ctext:var(--c0-text)}
+.c1{--solid:var(--c1-solid);--tint:var(--c1-tint);--ctext:var(--c1-text)}
+.c2{--solid:var(--c2-solid);--tint:var(--c2-tint);--ctext:var(--c2-text)}
+.c3{--solid:var(--c3-solid);--tint:var(--c3-tint);--ctext:var(--c3-text)}
+.c4{--solid:var(--c4-solid);--tint:var(--c4-tint);--ctext:var(--c4-text)}
+.toolbar{background:var(--surface);border-radius:22px;padding:20px 24px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;box-shadow:var(--shadow)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.grow{flex:1 1 280px}
+.label{font-size:.88rem;font-weight:600;color:var(--muted)}
+.toolbar .input{height:54px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{height:54px;padding:0 20px;border-radius:999px;font-size:.95rem;cursor:pointer;background:var(--surface);color:var(--text);border:1px solid var(--line-strong)}
+.pill[aria-pressed="true"]{background:var(--chip-dark);color:var(--on-chip-dark);border-color:var(--chip-dark);font-weight:700}
+select.input{padding:0 16px;width:auto;min-width:110px}
+.result-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;min-height:44px}
+.result-bar h2{margin:0;font-size:1rem;font-weight:600;color:var(--muted)}
+.link-btn{background:none;border:0;color:var(--link);cursor:pointer;text-decoration:underline;min-height:44px;padding:0 4px;font-size:1.05rem;margin-left:auto}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:20px}
+.card{position:relative;background:var(--surface);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow);border:1px solid var(--line);min-width:0;transition:box-shadow .15s}
+.card:hover{box-shadow:var(--shadow-lift)}
+.card-top{display:flex;align-items:center;gap:12px}
+.card-ico{width:48px;height:48px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--tint);color:var(--ctext)}
+.badges{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.badge{font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:999px}
+.b-cat{background:var(--tint);color:var(--ctext)}
+.b-most{background:var(--urgent);color:var(--on-urgent)}
+.b-very{background:var(--very-bg);color:var(--very-text)}
+.b-new{background:var(--new-bg);color:var(--new-text)}
+.card h3{margin:0;font-size:1.15rem;font-weight:700;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-link{color:inherit;text-decoration:none;background:none;border:0;padding:0;text-align:left;cursor:pointer;font:inherit}
+.card-link::after{content:'';position:absolute;inset:0;border-radius:22px}
+.card-link:focus-visible{outline:none}
+.card:has(.card-link:focus-visible){outline:3px solid var(--focus);outline-offset:2px}
+.meta{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:10px;row-gap:2px;font-size:.9rem;color:var(--muted)}
+.meta dt{font-weight:600}
+.meta dd{margin:0;overflow-wrap:anywhere}
+.meta .dl{color:var(--deadline);font-weight:600}
+.card-foot{margin-top:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding-top:14px;border-top:1px dashed var(--line-strong)}
+.date{display:flex;align-items:center;gap:6px;font-size:.9rem;color:var(--muted)}
+.btn{height:42px;padding:0 18px;border-radius:999px;background:var(--accent);color:var(--on-accent);display:inline-flex;align-items:center;font-size:.9rem;font-weight:600;border:0;cursor:pointer;text-decoration:none}
+.btn:hover{color:var(--on-accent);filter:brightness(.96)}
+.btn-soft{height:42px;padding:0 18px;border-radius:999px;background:var(--surface-2);color:var(--text);display:inline-flex;align-items:center;font-size:.9rem;font-weight:600;border:0;cursor:pointer}
+.empty{background:var(--surface);border-radius:22px;padding:48px 16px;text-align:center;color:var(--muted)}
+.pager{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:8px 0}
+.pager button{min-width:44px;height:44px;border-radius:999px;border:0;background:var(--surface);cursor:pointer;color:var(--text);font-variant-numeric:tabular-nums}
+.pager button[aria-current="page"]{background:var(--accent);color:var(--on-accent);font-weight:700}
+.pager button:disabled{opacity:.4;cursor:default}
+
+/* รายละเอียดข่าว */
+dialog.detail{border:0;border-radius:22px;padding:0;width:min(640px,calc(100% - 32px));max-height:calc(100% - 48px);background:var(--surface);color:var(--text);box-shadow:var(--shadow-lift)}
+dialog.detail::backdrop{background:var(--overlay)}
+.detail-in{padding:28px;display:flex;flex-direction:column;gap:16px}
+.detail-in h2{margin:0;font-size:1.35rem;line-height:1.5;text-wrap:balance}
+.detail-in .meta{font-size:.95rem;row-gap:6px}
+.detail-foot{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
+
+/* footer */
+.site-footer{background:var(--footer-bg);color:var(--footer-text);margin-top:24px}
+.site-footer .wrap{padding-block:32px;display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;font-size:.9rem}
+.site-footer a{color:var(--footer-text)}
+.fcol{display:flex;flex-direction:column;gap:4px}
+.fcol.grow{flex:1 1 280px}
+.fcol strong{color:var(--footer-head)}
+.fname{font-weight:500;font-size:1.12rem}
+
+@media (max-width: 900px){
+  .menu-toggle{display:inline-flex}
+  .side{display:none;flex-basis:100%}
+  .side.open{display:flex}
+  .hero h1{font-size:2.1rem}
+  .hero .s2,.hero .s3{display:none}
+  .gsearch{flex:1 1 100%}
+  .gsearch .input{width:100%}
+}
+@media (max-width: 560px){
+  .wrap{padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+  .toolbar{padding:16px}
+  .card{padding:18px}
+  .hero .wrap{padding-block:22px 76px}
+  .hero h1{font-size:1.65rem}
+  .hero p{font-size:.95rem}
+  .quick{grid-template-columns:1fr 1fr;gap:10px;margin-top:-50px}
+  .qcard{padding:14px;gap:10px;flex-direction:column;align-items:flex-start;border-radius:18px}
+  .qicon{width:44px;height:44px;border-radius:12px}
+  .qtext > span{display:none}
+  .tab{min-height:46px;font-size:.92rem}
+  .detail-in{padding:20px}
+}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<a class="skip" href="#content">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top" id="top">
+      <span class="logo" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"></path><path d="M8 6c0-1.7 1.8-3 4-3s4 1.3 4 3"></path><path d="M8 9c2.5 0 8 1 8 3.5S8.5 15 8.5 17.5 13 21 16 20"></path></svg></span>
+      <div>
+        <span class="brand-name kanit">กลุ่มงานบริหารทรัพยากรบุคคล</span>
+        <span class="brand-sub">สำนักงานเขตสุขภาพที่ 1</span>
+      </div>
+    </a>
+    <div class="tools">
+      <form class="gsearch" role="search" id="gsearch">
+        <label for="gq" class="sr-only">ค้นหาข่าวทุกหมวด</label>
+        <input id="gq" class="input" type="search" maxlength="100" placeholder="ค้นหาเลขที่หนังสือ ชื่อเรื่อง..." autocomplete="off">
+        <button class="icon-btn" type="submit" aria-label="ค้นหา" data-icon="search"></button>
+      </form>
+      <div class="seg" role="group" aria-label="ขนาดตัวอักษร">
+        <button type="button" class="sz-sm" data-size="sm" aria-pressed="false" aria-label="ตัวอักษรเล็ก">ก-</button>
+        <button type="button" data-size="md" aria-pressed="true" aria-label="ตัวอักษรปกติ">ก</button>
+        <button type="button" class="sz-lg" data-size="lg" aria-pressed="false" aria-label="ตัวอักษรใหญ่">ก+</button>
+      </div>
+      <button type="button" class="icon-btn" id="themeBtn" aria-label="สลับโหมดสว่าง/มืด" data-icon="moon"></button>
+      <a class="user-chip" href="https://localhost/hr/login.php" target="_blank" rel="noopener noreferrer"><span data-icon="settings"></span>หลังบ้าน</a>
+      <button type="button" class="icon-btn menu-toggle" id="menuBtn" aria-expanded="false" aria-controls="side">เมนู</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="shape s1" aria-hidden="true"></div>
+  <div class="shape s2" aria-hidden="true"></div>
+  <div class="shape s3" aria-hidden="true"></div>
+  <div class="wrap">
+    <nav class="crumb" aria-label="breadcrumb"><a href="#top">หน้าแรก</a> / กลุ่มงานบริหารทรัพยากรบุคคล</nav>
+    <h1 class="kanit">กลุ่มงานบริหารทรัพยากรบุคคล</h1>
+    <p>หนังสือเวียน ประกาศ และข่าวด้านบุคลากรได้ในที่เดียว</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="quick" id="quick"></div>
+
+  <div class="layout">
+    <aside class="side" id="side"></aside>
+
+    <main class="main" id="content" tabindex="-1">
+      <div class="tabs" role="tablist" aria-label="หมวดข่าว" id="tabs"></div>
+
+      <div class="toolbar">
+        <div class="field grow">
+          <label class="label" for="q">ค้นหาในหมวดนี้</label>
+          <input id="q" class="input" type="search" maxlength="100" placeholder="พิมพ์ชื่อเรื่อง เลขที่หนังสือ หรือหน่วยงาน" autocomplete="off">
+        </div>
+        <div class="field">
+          <span class="label" id="urgLabel">ความเร่งด่วน</span>
+          <div class="pills" role="group" aria-labelledby="urgLabel" id="pills">
+            <button type="button" class="pill" data-urg="all" aria-pressed="true">ทั้งหมด</button>
+            <button type="button" class="pill" data-urg="most" aria-pressed="false">ด่วนที่สุด</button>
+            <button type="button" class="pill" data-urg="very" aria-pressed="false">ด่วนมาก</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="year">ปีงบประมาณ</label>
+          <select id="year" class="input"></select>
+        </div>
+      </div>
+
+      <div class="result-bar">
+        <h2 id="resultTitle" hidden></h2>
+        <button type="button" class="link-btn" id="clearSearch">ล้างการค้นหา</button>
+      </div>
+
+      <p class="sr-only" aria-live="polite" id="live"></p>
+      <div class="grid" id="list"></div>
+      <div class="empty" id="empty" hidden>ไม่พบรายการที่ตรงกับเงื่อนไข ลองเปลี่ยนคำค้นหรือตัวกรอง</div>
+      <nav class="pager" aria-label="เลขหน้า" id="pager"></nav>
+    </main>
+  </div>
+</div>
+
+<dialog class="detail" id="detail" aria-labelledby="dTitle">
+  <div class="detail-in">
+    <div class="card-top" id="dTop"></div>
+    <h2 id="dTitle"></h2>
+    <dl class="meta" id="dMeta"></dl>
+    <div class="detail-foot"><button type="button" class="btn" id="dClose">ปิด</button></div>
+  </div>
+</dialog>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="fcol grow">
+      <strong class="fname kanit">กลุ่มงานบริหารทรัพยากรบุคคล สำนักงานเขตสุขภาพที่ 1</strong>
+      <span>203 ตำบล ริมใต้ อำเภอแม่ริม เชียงใหม่ 50180</span>
+      <span>โทร 053-890238 , 053-890240 ต่อ 104</span>
+    </div>
+    <div class="fcol">
+      <strong>ลิงก์ที่เกี่ยวข้อง</strong>
+      <a href="https://www.ocsc.go.th/" target="_blank" rel="noopener noreferrer">สำนักงาน ก.พ.</a>
+    </div>
+    <div class="fcol">
+      <strong>อัปเดตล่าสุด</strong>
+      <span id="lastUpdate"></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+'use strict';
+/* ข้อมูลชุดเดียวกับฐานข้อมูลเว็บจริง (database/seed_current.sql) */
+const CATEGORIES = [
+  { name:'หนังสือเวียนทั่วไป', color:0 },
+  { name:'ข่าวประชาสัมพันธ์', color:1 },
+  { name:'ข่าวรับสมัครงาน', color:2 },
+  { name:'รับสมัครข้าราชการ', color:3 },
+  { name:'ข่าวโอนย้ายข้าราชการ', color:4 },
+];
+// url '#' = ยังไม่มีลิงก์จริง
+const QUICK = [
+  { title:'ระบบการขอใช้ตำแหน่งว่าง', sub:'ตำแหน่งว่าง และติดตาม', icon:'user', color:2, url:'#' },
+  { title:'คำสั่ง', sub:'ย้าย/ปฏิบัติราชการ/โอน/ให้โอน', icon:'calendar', color:0, url:'#' },
+  { title:'ประเมินผลงานวิชาการ', sub:'ระดับ ชำนาญการพิเศษ', icon:'doccheck', color:3, url:'#' },
+  { title:'กรอบอัตรากำลัง', sub:'ตำแหน่งว่าง / แผนอัตรากำลัง', icon:'chart', color:3, url:'#' },
+  { title:'หนังสือต่างๆ', sub:'ถือปฏิบัติ/แนวทาง', icon:'link', color:4, url:'#' },
+];
+const MENU = [
+  { group:'เมนูหลัก', items:[
+    { title:'หน้าแรก', icon:'home', color:0, url:'#top' },
+    { title:'หนังสือเวียน', icon:'doc', color:0, url:'#content', current:true },
+    { title:'ย้าย/ปฏิบัติราชการ', icon:'swap', color:4, url:'#' },
+    { title:'แผนยุทธศาสตร์', icon:'target', color:1, url:'#' },
+    { title:'Action Plan', icon:'checklist', color:2, url:'#' },
+    { title:'ผลงานวิชาการ', icon:'award', color:3, url:'#' },
+    { title:'หลักสูตร อบรม ทุน', icon:'grad', color:1, url:'#' },
+    { title:'มุมจัดการความรู้ KM', icon:'bulb', color:3, url:'#' },
+  ]},
+  { group:'บริการ', items:[
+    { title:'แบบฟอร์มดาวน์โหลด', icon:'download', color:2, url:'#' },
+    { title:'คำถามที่พบบ่อย (FAQ)', icon:'help', color:4, url:'#' },
+    { title:'ร้องเรียน / แจ้งปัญหา', icon:'chat', color:0, url:'#' },
+    { title:'ติดต่อเจ้าหน้าที่', icon:'phone', color:3, url:'#' },
+  ]},
+];
+// cat = ลำดับใน CATEGORIES, urg '' | 'very' | 'most'
+const NEWS = [
+  { id:1, cat:0, date:'2026-10-14', urg:'', no:'[เลขที่หนังสือ]', from:'กลุ่มงานบรรจุแต่งตั้ง', deadline:'', title:'การปรับปรุงกระบวนการปฏิบัติงานด้านบริหารงานบุคคล กรณีการจัดทำคำสั่งย้าย (กลุ่มงานบรรจุแต่งตั้งจะชี้แจงแนวทางดังกล่าวให้ทราบอีกครั้งภายหลัง)' },
+  { id:2, cat:0, date:'2026-10-09', urg:'', no:'[เลขที่หนังสือ]', from:'ถึง สำนักงานเขตสุขภาพ', deadline:'', title:'ซักซ้อมความเข้าใจกรณีข้าราชการทุกรายที่บรรจุเข้ารับราชการหรือโอนมาเป็นข้าราชการ ตั้งแต่วันที่ 27 มีนาคม 2540 เป็นต้นมา มีสถานะเป็นสมาชิก กบข. โดยผลของกฎหมาย' },
+  { id:3, cat:0, date:'2026-10-09', urg:'very', no:'', from:'[หน่วยงานเจ้าของเรื่อง]', deadline:'', title:'ขอความอนุเคราะห์การรับผู้รับทุน ราย [ชื่อ-สกุล] เข้าปฏิบัติงานชดใช้ทุน' },
+  { id:4, cat:0, date:'2026-10-07', urg:'most', no:'[เลขที่หนังสือ]', from:'[หน่วยงานเจ้าของเรื่อง]', deadline:'', title:'การสำรวจผลกระทบต่อบุคลากรสาธารณสุขจากสถานการณ์อุทกภัย วาตภัย และดินโคลนถล่ม' },
+  { id:5, cat:0, date:'2026-10-05', urg:'', no:'', from:'สำนักงานปลัดกระทรวง', deadline:'', title:'ขอเชิญเสนอชื่อศิษย์เก่ามหาวิทยาลัยมหิดล เพื่อพิจารณารับรางวัลมหิดลทยากร ประจำปี 2569' },
+  { id:6, cat:0, date:'2026-10-05', urg:'', no:'สธ 0208.02/ว7401 ลว. 1 ต.ค. 2569', from:'[หน่วยงานเจ้าของเรื่อง]', deadline:'', title:'มติ อ.ก.พ. กระทรวงสาธารณสุข ครั้งที่ 5/2569 เมื่อวันที่ 29 กันยายน 2569' },
+  { id:7, cat:1, date:'2026-10-13', urg:'', no:'', from:'กลุ่มงานพัฒนาบุคลากร', deadline:'', title:'ประชาสัมพันธ์หลักสูตรฝึกอบรม [ชื่อหลักสูตร] ประจำปีงบประมาณ 2570' },
+  { id:8, cat:1, date:'2026-10-02', urg:'', no:'', from:'[หน่วยงานเจ้าของเรื่อง]', deadline:'', title:'กำหนดการ [ชื่อกิจกรรม] วันที่ [วัน เดือน ปี]' },
+  { id:9, cat:2, date:'2026-10-12', urg:'', no:'', from:'[หน่วยงานที่รับสมัคร]', deadline:'[วันปิดรับสมัคร]', title:'รับสมัครบุคคลเพื่อเลือกสรรเป็นพนักงานราชการทั่วไป ตำแหน่ง [ชื่อตำแหน่ง] จำนวน [X] อัตรา' },
+  { id:10, cat:2, date:'2026-09-28', urg:'', no:'', from:'[หน่วยงานที่รับสมัคร]', deadline:'', title:'ประกาศรายชื่อผู้มีสิทธิเข้ารับการประเมินสมรรถนะ ตำแหน่ง [ชื่อตำแหน่ง]' },
+  { id:11, cat:3, date:'2026-09-30', urg:'', no:'', from:'[หน่วยงานที่รับสมัคร]', deadline:'[วันปิดรับสมัคร]', title:'ประกาศรับสมัครสอบแข่งขันเพื่อบรรจุและแต่งตั้งบุคคลเข้ารับราชการ ตำแหน่ง [ชื่อตำแหน่ง]' },
+  { id:12, cat:4, date:'2026-09-25', urg:'', no:'', from:'[หน่วยงานที่รับโอน]', deadline:'[วันปิดรับ]', title:'รับโอนข้าราชการ ตำแหน่ง [ชื่อตำแหน่ง] ระดับ [ระดับ] จำนวน [X] อัตรา' },
+];
+const PER_PAGE = 10;
+const NEW_DAYS = 7;
+
+const ICONS = {
+  user:'<circle cx="12" cy="8" r="4"></circle><path d="M4 21c1-4 4-6 8-6s7 2 8 6"></path>',
+  calendar:'<rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 11h18"></path>',
+  doccheck:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path d="M14 3v6h6"></path><path d="M9 15l2 2 4-4"></path>',
+  chart:'<path d="M3 20h18"></path><path d="M6 16V9M11 16V5M16 16v-4"></path>',
+  home:'<path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path>',
+  doc:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path d="M14 3v6h6"></path><path d="M8 13h8M8 17h5"></path>',
+  swap:'<path d="M7 4L3 8l4 4"></path><path d="M3 8h14"></path><path d="M17 20l4-4-4-4"></path><path d="M21 16H7"></path>',
+  target:'<circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1"></circle>',
+  checklist:'<path d="M9 6h11M9 12h11M9 18h11"></path><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"></path>',
+  award:'<circle cx="12" cy="9" r="5"></circle><path d="M8.5 13l-1.5 8 5-3 5 3-1.5-8"></path>',
+  grad:'<path d="M2 8l10-5 10 5-10 5z"></path><path d="M6 10v6c3 2 9 2 12 0v-6"></path>',
+  bulb:'<path d="M9 18h6M10 21h4"></path><path d="M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"></path>',
+  download:'<path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 21h16"></path>',
+  help:'<circle cx="12" cy="12" r="9"></circle><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7"></path><path d="M12 17h.01"></path>',
+  chat:'<path d="M4 4h16v12H8l-4 4z"></path>',
+  phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.8 2.1z"></path>',
+  link:'<path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path>',
+  settings:'<circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path>',
+  search:'<circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path>',
+  moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>',
+};
+const icon = (name, size = 20) => '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[name] || ICONS.link)+'</svg>';
+
+const $ = id => document.getElementById(id);
+function store(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
+function load(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// ค่าที่เป็นข้อความตัวอย่าง [ ... ] ทั้งช่อง ไม่แสดง (เหมือน ph_clean() ฝั่ง PHP)
+const clean = s => /^\[[^\]]*\]$/.test(String(s || '').trim()) ? '' : String(s || '').trim();
+
+document.querySelectorAll('[data-icon]').forEach(el => { el.innerHTML = icon(el.dataset.icon, el.dataset.icon === 'settings' ? 18 : 20); });
+
+// ขนาดตัวอักษร
+function setSize(s){
+  if (s === 'md') document.documentElement.removeAttribute('data-size'); else document.documentElement.setAttribute('data-size', s);
+  document.querySelectorAll('.seg [data-size]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.size === s)));
+  store('hr-size', s);
+}
+document.querySelector('.seg').addEventListener('click', e => { const b = e.target.closest('[data-size]'); if (b) setSize(b.dataset.size); });
+setSize(load('hr-size') || 'md');
+
+// โหมดสว่าง/มืด
+function currentDark(){
+  const t = document.documentElement.getAttribute('data-theme');
+  return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+}
+$('themeBtn').addEventListener('click', () => {
+  const next = currentDark() ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next); store('hr-theme', next);
+});
+
+// เมนูมือถือ
+$('menuBtn').addEventListener('click', () => {
+  const open = $('side').classList.toggle('open');
+  $('menuBtn').setAttribute('aria-expanded', String(open));
+});
+
+// การ์ดบริการด่วน + เมนูข้าง
+const ext = u => /^https?:/.test(u) ? ' target="_blank" rel="noopener noreferrer"' : '';
+$('quick').innerHTML = QUICK.map(l =>
+  '<a class="qcard" href="'+esc(l.url)+'"'+ext(l.url)+'><span class="qicon c'+l.color+'">'+icon(l.icon, 28)+'</span><span class="qtext"><strong>'+esc(l.title)+'</strong><span>'+esc(l.sub)+'</span></span></a>'
+).join('');
+$('side').innerHTML = MENU.map((g, gi) =>
+  '<nav class="panel" aria-labelledby="nav-'+gi+'"><h2 class="panel-title" id="nav-'+gi+'">'+esc(g.group)+'</h2>'+
+  g.items.map(l => '<a class="nav-link c'+l.color+'" href="'+esc(l.url)+'"'+(l.current ? ' aria-current="page"' : '')+ext(l.url)+'><span class="nav-ico">'+icon(l.icon)+'</span>'+esc(l.title)+'</a>').join('')+
+  '</nav>'
+).join('');
+// ลิงก์ที่ยังไม่มีปลายทาง ไม่ให้เด้งขึ้นบนสุดของหน้า
+document.addEventListener('click', e => { const a = e.target.closest('a[href="#"]'); if (a) e.preventDefault(); });
+
+/* ---------------- รายการข่าว ---------------- */
+const MONTHS = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const DAY = 86400000;
+const parse = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); };
+const thaiDate = s => { const d = parse(s); return d.getDate()+' '+MONTHS[d.getMonth()]+' '+(d.getFullYear()+543); };
+// ปีงบประมาณเริ่ม 1 ต.ค.
+const fiscalYear = s => { const d = parse(s); return d.getFullYear()+543+(d.getMonth() >= 9 ? 1 : 0); };
+const isNew = it => (Date.now() - parse(it.date).getTime()) / DAY <= NEW_DAYS;
+
+const state = { tab:0, urg:'all', q:'', year:'all', page:1 };
+const sorted = NEWS.slice().sort((a,b) => b.date.localeCompare(a.date) || b.id - a.id);
+
+function buildYears(){
+  const ys = [...new Set(NEWS.map(n => fiscalYear(n.date)))].sort((a,b) => b - a);
+  $('year').innerHTML = '<option value="all">ทุกปี</option>' + ys.map(y => '<option value="'+y+'">'+y+'</option>').join('');
+}
+
+function renderTabs(){
+  $('tabs').innerHTML = CATEGORIES.map((c, i) => {
+    const n = NEWS.filter(x => x.cat === i).length, sel = i === state.tab;
+    return '<button type="button" role="tab" class="tab c'+c.color+'" data-tab="'+i+'" aria-selected="'+sel+'" tabindex="'+(sel ? 0 : -1)+'"><span class="dot" aria-hidden="true"></span>'+esc(c.name)+' <span class="count">'+n+'</span></button>';
+  }).join('');
+}
+
+function filtered(){
+  const q = state.q.trim().toLowerCase();
+  return sorted.filter(it =>
+    it.cat === state.tab &&
+    (state.urg === 'all' || it.urg === state.urg) &&
+    (state.year === 'all' || String(fiscalYear(it.date)) === state.year) &&
+    (!q || (it.title+' '+clean(it.no)+' '+clean(it.from)).toLowerCase().includes(q))
+  );
+}
+
+function badges(it){
+  const cat = CATEGORIES[it.cat];
+  return '<span class="card-ico">'+icon('doc')+'</span><div class="badges">'+
+    '<span class="badge b-cat">'+esc(cat.name)+'</span>'+
+    (it.urg === 'most' ? '<span class="badge b-most">ด่วนที่สุด</span>' : '')+
+    (it.urg === 'very' ? '<span class="badge b-very">ด่วนมาก</span>' : '')+
+    (isNew(it) ? '<span class="badge b-new">ใหม่</span>' : '')+
+  '</div>';
+}
+function metaRows(it){
+  const no = clean(it.no), from = clean(it.from), dl = clean(it.deadline);
+  return (no ? '<dt>เลขที่</dt><dd>'+esc(no)+'</dd>' : '')+
+    (from ? '<dt>จาก</dt><dd>'+esc(from)+'</dd>' : '')+
+    (dl ? '<dt class="dl">ปิดรับ</dt><dd class="dl">'+esc(dl)+'</dd>' : '');
+}
+
+function card(it){
+  return '<article class="card c'+CATEGORIES[it.cat].color+'">'+
+    '<div class="card-top">'+badges(it)+'</div>'+
+    '<h3><button type="button" class="card-link" data-id="'+it.id+'">'+esc(it.title)+'</button></h3>'+
+    '<dl class="meta">'+metaRows(it)+'</dl>'+
+    '<div class="card-foot"><span class="date">'+icon('calendar', 16)+'<time datetime="'+esc(it.date)+'">'+thaiDate(it.date)+'</time></span>'+
+    '<span class="btn" aria-hidden="true">อ่านรายละเอียด</span></div>'+
+  '</article>';
+}
+
+function render(){
+  renderTabs();
+  const rows = filtered();
+  const pages = Math.max(1, Math.ceil(rows.length / PER_PAGE));
+  if (state.page > pages) state.page = pages;
+  $('list').innerHTML = rows.slice((state.page-1)*PER_PAGE, state.page*PER_PAGE).map(card).join('');
+  $('empty').hidden = rows.length > 0;
+
+  const parts = [], q = state.q.trim();
+  if (q) parts.push('คำค้น “'+q+'”');
+  if (state.urg !== 'all') parts.push(state.urg === 'most' ? 'ด่วนที่สุด' : 'ด่วนมาก');
+  if (state.year !== 'all') parts.push('ปีงบประมาณ '+state.year);
+  $('resultTitle').hidden = !parts.length;
+  $('resultTitle').textContent = parts.length ? 'พบ '+rows.length+' รายการ · '+parts.join(' · ') : '';
+  $('live').textContent = 'พบ '+rows.length+' รายการ';
+
+  let p = '<button type="button" data-page="'+(state.page-1)+'" aria-label="หน้าก่อนหน้า"'+(state.page === 1 ? ' disabled' : '')+'>‹</button>';
+  for (let i = 1; i <= pages; i++) p += '<button type="button" data-page="'+i+'"'+(i === state.page ? ' aria-current="page"' : '')+'>'+i+'</button>';
+  p += '<button type="button" data-page="'+(state.page+1)+'" aria-label="หน้าถัดไป"'+(state.page === pages ? ' disabled' : '')+'>›</button>';
+  $('pager').innerHTML = pages > 1 ? p : '';
+}
+
+function openDetail(id, opener){
+  const it = NEWS.find(n => n.id === id); if (!it) return;
+  $('dTop').className = 'card-top c'+CATEGORIES[it.cat].color;
+  $('dTop').innerHTML = badges(it);
+  $('dTitle').textContent = it.title;
+  $('dMeta').innerHTML = metaRows(it)+'<dt>วันที่</dt><dd>'+thaiDate(it.date)+'</dd><dt>ปีงบประมาณ</dt><dd>'+fiscalYear(it.date)+'</dd>';
+  $('detail').opener = opener;
+  $('detail').showModal();
+}
+$('list').addEventListener('click', e => {
+  const c = e.target.closest('.card'); if (!c) return;
+  const b = c.querySelector('[data-id]'); openDetail(+b.dataset.id, b);
+});
+$('dClose').addEventListener('click', () => $('detail').close());
+$('detail').addEventListener('click', e => { if (e.target === $('detail')) $('detail').close(); });
+$('detail').addEventListener('close', () => $('detail').opener?.focus());
+
+function setTab(i){ state.tab = i; state.page = 1; render(); $('tabs').querySelector('[aria-selected="true"]')?.focus(); }
+$('tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (b) setTab(+b.dataset.tab); });
+$('tabs').addEventListener('keydown', e => {
+  if (!['ArrowLeft','ArrowRight'].includes(e.key)) return;
+  const n = CATEGORIES.length;
+  setTab((state.tab + (e.key === 'ArrowRight' ? 1 : -1) + n) % n);
+});
+$('pills').addEventListener('click', e => {
+  const b = e.target.closest('[data-urg]'); if (!b) return;
+  state.urg = b.dataset.urg; state.page = 1;
+  $('pills').querySelectorAll('[data-urg]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  render();
+});
+$('q').addEventListener('input', e => { state.q = e.target.value; state.page = 1; render(); });
+$('year').addEventListener('change', e => { state.year = e.target.value; state.page = 1; render(); });
+$('pager').addEventListener('click', e => {
+  const b = e.target.closest('[data-page]'); if (!b || b.disabled) return;
+  state.page = +b.dataset.page; render(); $('content').scrollIntoView({behavior:'smooth'});
+});
+// ช่องค้นหาบนหัวเว็บ: ไปที่หมวดแรกที่มีผลลัพธ์
+$('gsearch').addEventListener('submit', e => {
+  e.preventDefault();
+  const q = $('gq').value.trim().slice(0, 100).toLowerCase(); if (!q) return;
+  const hit = sorted.find(it => (it.title+' '+clean(it.no)+' '+clean(it.from)).toLowerCase().includes(q));
+  if (hit) state.tab = hit.cat;
+  state.q = $('gq').value.trim().slice(0, 100); state.page = 1;
+  $('q').value = state.q; $('gq').value = ''; render();
+  $('content').focus({preventScroll:true}); $('content').scrollIntoView({behavior:'smooth'});
+});
+$('clearSearch').addEventListener('click', () => {
+  state.q = ''; state.urg = 'all'; state.year = 'all'; state.page = 1;
+  $('q').value = ''; $('year').value = 'all';
+  $('pills').querySelectorAll('[data-urg]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.urg === 'all')));
+  render(); $('q').focus();
+});
+
+$('lastUpdate').textContent = thaiDate(sorted[0].date);
+buildYears();
+render();
+</script>
+</body>
+</html>
