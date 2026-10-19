@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="th" data-noframe>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- CSP: สคริปต์มาจากเว็บนี้และ Firebase SDK เท่านั้น ห้ามสคริปต์ในบรรทัด (กัน XSS) / style 'unsafe-inline' เผื่อ reCAPTCHA ของ App Check -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://www.google.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://www.google.com; frame-src https://*.firebaseapp.com https://www.google.com; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>สมัครสมาชิก กลุ่มงานบริหารทรัพยากรบุคคล</title>
+<meta name="description" content="หนังสือเวียน ประกาศ ข่าวรับสมัครงาน และข่าวโอนย้ายของกลุ่มงานบริหารทรัพยากรบุคคล สำนักงานเขตสุขภาพที่ 1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/img/logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/theme.js"></script>
+<script type="module" src="assets/js/register.js"></script>
+</head>
+<body>
+<a class="skip" href="#content">ข้ามไปยังเนื้อหาหลัก</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo has-img"><img src="assets/img/logo.webp" alt="โลโก้กระทรวงสาธารณสุข" width="56" height="56"></span>
+      <div>
+        <span class="brand-name kanit">กลุ่มงานบริหารทรัพยากรบุคคล</span>
+        <span class="brand-sub">สำนักงานเขตสุขภาพที่ 1</span>
+      </div>
+    </a>
+    <div class="tools">
+      <button type="button" class="icon-btn" id="themeBtn" aria-label="สลับโหมดสว่าง/มืด" data-icon="moon"></button>
+      <a class="user-chip" href="index.html">หน้าแรก</a>
+    </div>
+  </div>
+</header>
+<main class="auth-wrap" id="content" tabindex="-1">
+  <div class="auth-card">
+    <h1 class="kanit">สมัครสมาชิก</h1>
+    <p class="lead">หลังสมัคร ต้องยืนยันอีเมล และรอผู้ดูแลระบบอนุมัติก่อนจึงจะเข้าหลังบ้านได้</p>
+    <p class="alert" id="msg" role="status" aria-live="polite" hidden></p>
+
+    <form class="form" id="regForm" novalidate>
+      <div class="field">
+        <label class="label" for="name">ชื่อ-สกุล</label>
+        <input class="input" id="name" type="text" autocomplete="name" maxlength="100" required>
+      </div>
+      <div class="field">
+        <label class="label" for="org">หน่วยงาน / กลุ่มงาน</label>
+        <input class="input" id="org" type="text" autocomplete="organization" maxlength="150">
+      </div>
+      <div class="field">
+        <label class="label" for="email">อีเมล</label>
+        <input class="input" id="email" type="email" autocomplete="username" maxlength="254" required>
+      </div>
+      <div class="field">
+        <label class="label" for="password">รหัสผ่าน</label>
+        <input class="input" id="password" type="password" autocomplete="new-password" maxlength="128" required aria-describedby="pwRules meterText">
+        <div class="meter" aria-hidden="true"><span id="meterBar"></span></div>
+        <p class="hint" id="meterText"></p>
+        <ul class="pw-rules" id="pwRules">
+          <li id="r-len">ยาวอย่างน้อย 12 ตัวอักษร</li>
+          <li id="r-mix">มีตัวพิมพ์เล็กและตัวพิมพ์ใหญ่ (a–z, A–Z)</li>
+          <li id="r-num">มีตัวเลข</li>
+          <li id="r-sym">มีอักขระพิเศษ เช่น ! @ # $ %</li>
+          <li id="r-safe">ไม่ใช่รหัสที่เดาง่าย ไม่มีชื่ออีเมล และไม่มีตัวซ้ำติดกัน 4 ตัว</li>
+        </ul>
+      </div>
+      <div class="field">
+        <label class="label" for="password2">ยืนยันรหัสผ่าน</label>
+        <input class="input" id="password2" type="password" autocomplete="new-password" maxlength="128" required>
+      </div>
+      <label class="check"><input type="checkbox" id="consent"> <span>ยินยอมให้เก็บชื่อ หน่วยงาน และอีเมล เพื่อใช้ยืนยันตัวตนและบันทึกการใช้งานหลังบ้าน ตาม พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562</span></label>
+      <button type="submit" class="btn wide" id="regBtn">สมัครสมาชิก</button>
+      <div class="row-links"><span>มีบัญชีแล้ว?</span><a href="login.html">เข้าสู่ระบบ</a></div>
+    </form>
+  </div>
+</main>
+</body>
+</html>

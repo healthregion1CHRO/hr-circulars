@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="th" data-noframe>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- CSP: สคริปต์มาจากเว็บนี้และ Firebase SDK เท่านั้น ห้ามสคริปต์ในบรรทัด (กัน XSS) / style 'unsafe-inline' เผื่อ reCAPTCHA ของ App Check -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://www.google.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://www.google.com; frame-src https://*.firebaseapp.com https://www.google.com; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>หลังบ้าน กลุ่มงานบริหารทรัพยากรบุคคล</title>
+<meta name="description" content="หนังสือเวียน ประกาศ ข่าวรับสมัครงาน และข่าวโอนย้ายของกลุ่มงานบริหารทรัพยากรบุคคล สำนักงานเขตสุขภาพที่ 1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/img/logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/theme.js"></script>
+<script type="module" src="assets/js/admin.js"></script>
+</head>
+<body>
+<a class="skip" href="#content">ข้ามไปยังเนื้อหาหลัก</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo has-img"><img src="assets/img/logo.webp" alt="โลโก้กระทรวงสาธารณสุข" width="56" height="56"></span>
+      <div>
+        <span class="brand-name kanit">กลุ่มงานบริหารทรัพยากรบุคคล</span>
+        <span class="brand-sub">สำนักงานเขตสุขภาพที่ 1</span>
+      </div>
+    </a>
+    <div class="tools">
+      <button type="button" class="icon-btn" id="themeBtn" aria-label="สลับโหมดสว่าง/มืด" data-icon="moon"></button>
+      <button type="button" class="user-chip" id="logoutBtn" hidden><span data-icon="logout" data-size="18"></span>ออกจากระบบ</button>
+    </div>
+  </div>
+</header>
+<main class="wrap admin-wrap" id="content" tabindex="-1">
+  <p class="alert warn" id="gate" role="status" aria-live="polite">กำลังตรวจสอบสิทธิ์…</p>
+
+  <div id="app" hidden>
+    <div class="admin-wrap">
+      <div class="admin-head">
+        <div>
+          <h1 class="kanit">หลังบ้าน</h1>
+          <span class="who"><span id="who"></span> · <span id="roleText"></span></span>
+        </div>
+        <div class="tabs" role="tablist" aria-label="เมนูหลังบ้าน" id="views">
+          <button type="button" role="tab" class="tab c0" data-view="news" aria-selected="true"><span class="dot" aria-hidden="true"></span>ข่าว</button>
+          <button type="button" role="tab" class="tab c4" data-view="users" aria-selected="false" data-admin hidden><span class="dot" aria-hidden="true"></span>ผู้ใช้</button>
+          <button type="button" role="tab" class="tab c1" data-view="audit" aria-selected="false" data-admin hidden><span class="dot" aria-hidden="true"></span>บันทึกการใช้งาน</button>
+        </div>
+      </div>
+
+      <section class="panel-box" id="v-news" aria-label="จัดการข่าว">
+        <div class="bar">
+          <label class="sr-only" for="nq">ค้นหาข่าว</label>
+          <input class="input" id="nq" type="search" maxlength="100" placeholder="ค้นหาชื่อเรื่อง เลขที่ หรือหน่วยงาน">
+          <div class="acts">
+            <button type="button" class="btn-soft" id="seedBtn" hidden>นำเข้าข่าวตัวอย่าง 12 รายการ</button>
+            <button type="button" class="btn" id="addBtn">+ เพิ่มข่าว</button>
+          </div>
+        </div>
+        <p class="hint" id="newsCount"></p>
+        <div class="table-scroll">
+          <table class="data">
+            <thead><tr><th>วันที่</th><th>หมวด</th><th>เรื่อง</th><th>ความเร่งด่วน</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+            <tbody id="newsBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel-box" id="v-users" aria-label="จัดการผู้ใช้" hidden>
+        <p class="hint" id="pendingCount"></p>
+        <div class="table-scroll">
+          <table class="data">
+            <thead><tr><th>ชื่อ</th><th>อีเมล</th><th>สมัครเมื่อ</th><th>สถานะ</th><th>สิทธิ์</th><th>จัดการ</th></tr></thead>
+            <tbody id="usersBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel-box" id="v-audit" aria-label="บันทึกการใช้งาน" hidden>
+        <div class="bar"><p class="hint">200 รายการล่าสุด</p><button type="button" class="btn-soft" id="auditReload">โหลดใหม่</button></div>
+        <div class="table-scroll">
+          <table class="data">
+            <thead><tr><th>เวลา</th><th>ผู้ใช้</th><th>การกระทำ</th><th>รายการ</th></tr></thead>
+            <tbody id="auditBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<dialog class="detail" id="newsDlg" aria-labelledby="formTitle">
+  <form class="detail-in form" id="newsForm" novalidate>
+    <h2 id="formTitle">เพิ่มข่าว</h2>
+    <p class="alert" id="formMsg" role="alert" hidden></p>
+    <div class="grid2">
+      <div class="field"><label class="label" for="nCat">หมวด</label><select class="input" id="nCat"></select></div>
+      <div class="field"><label class="label" for="nDate">วันที่</label><input class="input" id="nDate" type="date" required></div>
+    </div>
+    <div class="field"><label class="label" for="nTitle">ชื่อเรื่อง</label><textarea class="input" id="nTitle" rows="3" maxlength="300" required></textarea></div>
+    <div class="grid2">
+      <div class="field"><label class="label" for="nNo">เลขที่หนังสือ</label><input class="input" id="nNo" type="text" maxlength="120"></div>
+      <div class="field"><label class="label" for="nFrom">จากหน่วยงาน</label><input class="input" id="nFrom" type="text" maxlength="200"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="label" for="nUrg">ความเร่งด่วน</label>
+        <select class="input" id="nUrg"><option value="">ปกติ</option><option value="very">ด่วนมาก</option><option value="most">ด่วนที่สุด</option></select></div>
+      <div class="field"><label class="label" for="nDeadline">วันปิดรับ (ถ้ามี)</label><input class="input" id="nDeadline" type="text" maxlength="100" placeholder="เช่น 31 ต.ค. 2569"></div>
+    </div>
+    <label class="check"><input type="checkbox" id="nPub"> <span>เผยแพร่บนหน้าเว็บ</span></label>
+    <div class="detail-foot">
+      <button type="button" class="btn-soft" id="formCancel">ยกเลิก</button>
+      <button type="submit" class="btn" id="formSave">บันทึก</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="detail" id="delDlg" aria-labelledby="delTitle">
+  <div class="detail-in">
+    <h2 id="delTitle">ลบข่าวนี้?</h2>
+    <p id="delText"></p>
+    <p class="hint">ลบแล้วกู้คืนไม่ได้ ถ้าเพียงไม่ต้องการให้แสดงบนเว็บ ให้กดปุ่มซ่อนแทน</p>
+    <div class="detail-foot">
+      <button type="button" class="btn-soft" id="delCancel">ยกเลิก</button>
+      <button type="button" class="btn danger" id="delOk">ลบข่าว</button>
+    </div>
+  </div>
+</dialog>
+</body>
+</html>

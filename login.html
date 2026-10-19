@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="th" data-noframe>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- CSP: สคริปต์มาจากเว็บนี้และ Firebase SDK เท่านั้น ห้ามสคริปต์ในบรรทัด (กัน XSS) / style 'unsafe-inline' เผื่อ reCAPTCHA ของ App Check -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://www.google.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://www.google.com; frame-src https://*.firebaseapp.com https://www.google.com; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>เข้าสู่ระบบ กลุ่มงานบริหารทรัพยากรบุคคล</title>
+<meta name="description" content="หนังสือเวียน ประกาศ ข่าวรับสมัครงาน และข่าวโอนย้ายของกลุ่มงานบริหารทรัพยากรบุคคล สำนักงานเขตสุขภาพที่ 1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/img/logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/theme.js"></script>
+<script type="module" src="assets/js/login.js"></script>
+</head>
+<body>
+<a class="skip" href="#content">ข้ามไปยังเนื้อหาหลัก</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo has-img"><img src="assets/img/logo.webp" alt="โลโก้กระทรวงสาธารณสุข" width="56" height="56"></span>
+      <div>
+        <span class="brand-name kanit">กลุ่มงานบริหารทรัพยากรบุคคล</span>
+        <span class="brand-sub">สำนักงานเขตสุขภาพที่ 1</span>
+      </div>
+    </a>
+    <div class="tools">
+      <button type="button" class="icon-btn" id="themeBtn" aria-label="สลับโหมดสว่าง/มืด" data-icon="moon"></button>
+      <a class="user-chip" href="index.html">หน้าแรก</a>
+    </div>
+  </div>
+</header>
+<main class="auth-wrap" id="content" tabindex="-1">
+  <div class="auth-card">
+    <h1 class="kanit">เข้าสู่ระบบหลังบ้าน</h1>
+    <p class="lead">สำหรับเจ้าหน้าที่ที่ได้รับอนุมัติให้จัดการหนังสือเวียนและข่าวสาร</p>
+    <p class="alert" id="msg" role="status" aria-live="polite" hidden></p>
+
+    <form class="form" id="loginForm" novalidate>
+      <div class="field">
+        <label class="label" for="email">อีเมล</label>
+        <input class="input" id="email" type="email" autocomplete="username" maxlength="254" required>
+      </div>
+      <div class="field">
+        <label class="label" for="password">รหัสผ่าน</label>
+        <input class="input" id="password" type="password" autocomplete="current-password" maxlength="128" required>
+      </div>
+      <button type="submit" class="btn wide" id="loginBtn">เข้าสู่ระบบ</button>
+      <button type="button" class="btn-soft" id="resendBtn" hidden>ส่งลิงก์ยืนยันอีเมลอีกครั้ง</button>
+      <div class="row-links">
+        <button type="button" class="link-btn" id="showForgot">ลืมรหัสผ่าน?</button>
+        <a href="register.html">สมัครสมาชิก</a>
+      </div>
+    </form>
+
+    <form class="form" id="forgotForm" novalidate hidden>
+      <p class="hint">กรอกอีเมลที่ใช้สมัคร ระบบจะส่งลิงก์ตั้งรหัสผ่านใหม่ไปให้</p>
+      <div class="field">
+        <label class="label" for="fEmail">อีเมล</label>
+        <input class="input" id="fEmail" type="email" autocomplete="username" maxlength="254" required>
+      </div>
+      <button type="submit" class="btn wide" id="forgotBtn">ส่งลิงก์ตั้งรหัสผ่านใหม่</button>
+      <div class="row-links"><button type="button" class="link-btn" id="backLogin">กลับไปหน้าเข้าสู่ระบบ</button></div>
+    </form>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,103 @@
+rules_version = '2';
+// กฎความปลอดภัยของฐานข้อมูล — ด่านจริงของระบบ (โค้ดหน้าเว็บแก้ได้ แต่กฎนี้บังคับที่เซิร์ฟเวอร์ Google)
+// วางทั้งไฟล์ใน Firebase console › Firestore Database › Rules แล้วกด Publish
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- ตัวช่วย ----------
+    function signedIn() {
+      return request.auth != null;
+    }
+    // ต้องยืนยันอีเมลแล้วเท่านั้นจึงจะถือว่าเป็นเจ้าหน้าที่ได้
+    function verified() {
+      return signedIn() && request.auth.token.email_verified == true;
+    }
+    function profile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    function isStaff() {
+      return verified()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && profile().status == 'approved';
+    }
+    function isAdmin() {
+      return isStaff() && profile().role == 'admin';
+    }
+    function str(v, minLen, maxLen) {
+      return v is string && v.size() >= minLen && v.size() <= maxLen;
+    }
+
+    // ---------- ข่าว ----------
+    function validNews(d) {
+      return d.keys().hasOnly(['cat', 'title', 'no', 'from', 'urg', 'date', 'deadline', 'published', 'createdBy', 'createdAt', 'updatedBy', 'updatedAt'])
+        && d.keys().hasAll(['cat', 'title', 'no', 'from', 'urg', 'date', 'deadline', 'published', 'createdBy', 'createdAt', 'updatedBy', 'updatedAt'])
+        && d.cat is int && d.cat >= 0 && d.cat <= 4
+        && str(d.title, 1, 300)
+        && str(d.no, 0, 120)
+        && str(d.from, 0, 200)
+        && d.urg in ['', 'very', 'most']
+        && d.date is string && d.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && str(d.deadline, 0, 100)
+        && d.published is bool
+        // ผู้แก้ไขล่าสุดต้องเป็นตัวเอง และเวลาต้องเป็นเวลาเซิร์ฟเวอร์ (ปลอมไม่ได้)
+        && d.updatedBy == request.auth.uid
+        && d.updatedAt == request.time;
+    }
+
+    match /news/{newsId} {
+      // คนทั่วไปอ่านได้เฉพาะข่าวที่เผยแพร่ เจ้าหน้าที่อ่านได้ทั้งหมด
+      allow get, list: if resource.data.published == true || isStaff();
+      allow create: if isStaff()
+        && validNews(request.resource.data)
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.createdAt == request.time;
+      // แก้ไขได้ แต่เปลี่ยนผู้สร้าง/เวลาสร้างไม่ได้
+      allow update: if isStaff()
+        && validNews(request.resource.data)
+        && request.resource.data.createdBy == resource.data.createdBy
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isAdmin();
+    }
+
+    // ---------- ผู้ใช้ ----------
+    match /users/{uid} {
+      allow get: if (signedIn() && request.auth.uid == uid) || isAdmin();
+      allow list: if isAdmin();
+      // สมัครเอง: สร้างได้เฉพาะโปรไฟล์ของตัวเอง สถานะรออนุมัติ สิทธิ์ผู้แก้ไขข่าว (ตั้งตัวเองเป็นแอดมินไม่ได้)
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['email', 'name', 'org', 'status', 'role', 'createdAt'])
+        && request.resource.data.keys().hasAll(['email', 'name', 'org', 'status', 'role', 'createdAt'])
+        && request.resource.data.email == request.auth.token.email
+        && str(request.resource.data.name, 1, 100)
+        && str(request.resource.data.org, 0, 150)
+        && request.resource.data.status == 'pending'
+        && request.resource.data.role == 'editor'
+        && request.resource.data.createdAt == request.time;
+      // แอดมินเปลี่ยนได้แค่สถานะ/สิทธิ์ของคนอื่น (แก้ของตัวเองไม่ได้ กันแอดมินคนสุดท้ายล็อกตัวเองออก)
+      allow update: if isAdmin() && request.auth.uid != uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'role'])
+        && request.resource.data.status in ['pending', 'approved', 'disabled']
+        && request.resource.data.role in ['editor', 'admin'];
+      allow delete: if false;
+    }
+
+    // ---------- บันทึกการใช้งาน: เพิ่มได้อย่างเดียว แก้/ลบไม่ได้ ----------
+    match /audit/{logId} {
+      allow get, list: if isAdmin();
+      allow create: if isStaff()
+        && request.resource.data.keys().hasOnly(['uid', 'email', 'action', 'target', 'at'])
+        && request.resource.data.keys().hasAll(['uid', 'email', 'action', 'target', 'at'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.email == request.auth.token.email
+        && str(request.resource.data.action, 1, 40)
+        && str(request.resource.data.target, 0, 300)
+        && request.resource.data.at == request.time;
+      allow update, delete: if false;
+    }
+
+    // คอลเลกชันอื่นทั้งหมด: ปิด
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
