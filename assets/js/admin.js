@@ -17,13 +17,19 @@ const STATUS = { pending:['รออนุมัติ','wait'], approved:['ใ�
 const ROLE = { editor:'ผู้แก้ไขข่าว', admin:'ผู้ดูแลระบบ' };
 
 if (!configured) {
-  say(gate, 'warn', 'ระบบสมาชิกยังไม่เปิดใช้งาน ผู้ดูแลต้องตั้งค่า Firebase ใน assets/js/firebase-config.js ก่อน (ดูขั้นตอนใน README.md)');
+  say(gate, 'warn', 'ระบบสมาชิกยังไม่เปิดใช้งาน ผู้ดูแลต้องตั้งค่า Firebase ใน assets/js/firebase-config.js ก่อน (ดูขั้นตอนใน README.md) ระหว่างนี้ลองใช้หลังบ้านด้วยข้อมูลตัวอย่างได้');
+  // โหมดตัวอย่างมีเฉพาะตอนยังไม่ตั้งค่า Firebase: ตั้งค่าแล้วปุ่มนี้หายไป ไม่มีทางข้ามการเข้าสู่ระบบจริง
+  $('demoBtn').hidden = false;
+  $('demoBtn').addEventListener('click', async () => {
+    const { demoBackend } = await import('./demo.js');
+    $('demoBtn').hidden = true; $('demoBar').hidden = false;
+    boot(demoBackend());
+  });
 } else {
-  boot().catch(err => say(gate, 'err', authMessage(err)));
+  fb().then(boot).catch(err => say(gate, 'err', authMessage(err)));
 }
 
-async function boot(){
-  const { auth, db, A, F } = await fb();
+async function boot({ auth, db, A, F }){
   let me = null, profile = null, isAdmin = false;
   let news = [], users = [], editing = null, pendingDelete = null;
   let leaving = false;  // ออกจากระบบเอง: ไม่ต้องให้ onAuthStateChanged พาไปหน้า login ซ้ำ

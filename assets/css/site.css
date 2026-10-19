@@ -277,7 +277,7 @@ table.data{width:100%;border-collapse:collapse;font-size:.92rem}
 table.data th,table.data td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
 table.data th{font-size:.8rem;color:var(--muted);font-weight:600;white-space:nowrap}
 table.data td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
-table.data .acts{display:flex;gap:6px;flex-wrap:wrap}
+table.data .acts{display:flex;gap:6px;flex-wrap:nowrap}
 table.data .btn,table.data .btn-soft{height:36px;padding:0 14px;font-size:.82rem}
 .st{font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
 .st.on{background:var(--ok-bg);color:var(--ok-text)}
