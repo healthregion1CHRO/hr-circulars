@@ -7,14 +7,14 @@ export const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','
 // ค่าที่เป็นข้อความตัวอย่าง [ ... ] ทั้งช่อง ไม่แสดง
 export const clean = s => /^\[[^\]]*\]$/.test(String(s || '').trim()) ? '' : String(s || '').trim();
 
-export const CATEGORIES = [
-  { name:'หนังสือเวียนทั่วไป', color:0 },
-  { name:'ข่าวประชาสัมพันธ์', color:1 },
-  { name:'ข่าวรับสมัครงาน', color:2 },
-  { name:'รับสมัครข้าราชการ', color:3 },
-  { name:'ข่าวโอนย้ายข้าราชการ', color:4 },
-];
 export const URG = { '':'ปกติ', very:'ด่วนมาก', most:'ด่วนที่สุด' };
+export const COLORS = ['ชมพู', 'ม่วง', 'เขียว', 'ส้ม', 'ฟ้า'];
+export const LINK_GROUPS = { quick:'การ์ดบริการด่วน', main:'เมนูหลัก', service:'เมนูบริการ', footer:'ลิงก์ท้ายเว็บ' };
+
+// ลิงก์ที่ยอมให้ใช้: https:// http:// , #anchor , ไฟล์ .html ในเว็บนี้ (กติกาเดียวกับ firestore.rules — กัน javascript: และ data:)
+export const URL_RE = /^(https?:\/\/[^\s"'<>]+|#[A-Za-z0-9_-]*|[A-Za-z0-9_./-]+\.html(#[A-Za-z0-9_-]*)?)$/;
+export const safeUrl = u => URL_RE.test(String(u || '')) && !/\.\./.test(u) ? u : '#';
+export const isDeadLink = u => safeUrl(u) === '#';
 
 const ICONS = {
   user:'<circle cx="12" cy="8" r="4"></circle><path d="M4 21c1-4 4-6 8-6s7 2 8 6"></path>',
@@ -39,8 +39,11 @@ const ICONS = {
   moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>',
   logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path>',
   users:'<circle cx="9" cy="8" r="4"></circle><path d="M2 21c1-4 3.5-6 7-6s6 2 7 6"></path><path d="M16 4a4 4 0 0 1 0 8M22 21c-.5-3-2-5-4-5.7"></path>',
+  tag:'<path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"></path><circle cx="7" cy="7" r="1.5"></circle>',
   shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>',
 };
+// ไอคอนที่เลือกให้ลิงก์ได้ (ต้องตรงกับรายการใน firestore.rules)
+export const LINK_ICONS = ['user','calendar','doccheck','chart','home','doc','swap','target','checklist','award','grad','bulb','download','help','chat','phone','link','users','shield','search'];
 export const icon = (name, size = 20) => '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[name] || ICONS.link)+'</svg>';
 
 const MONTHS = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];

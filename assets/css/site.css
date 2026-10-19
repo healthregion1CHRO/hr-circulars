@@ -289,3 +289,4 @@ dialog.detail form{display:contents}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--chip-dark);color:var(--on-chip-dark);padding:10px 18px;border-radius:999px;z-index:40;box-shadow:var(--shadow-lift);font-size:.9rem;max-width:calc(100% - 32px)}
 @media (max-width: 560px){ .auth-card{padding:22px} }
 button.user-chip{border:0;cursor:pointer}
+#footLinks{display:contents}

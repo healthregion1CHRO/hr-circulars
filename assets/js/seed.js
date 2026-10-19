@@ -1,32 +1,53 @@
-// เมนู/การ์ดบริการ และข่าวตัวอย่าง (ชุดเดียวกับ database/seed_current.sql ของระบบ PHP)
-// ข่าวตัวอย่างใช้แสดงเมื่อยังไม่ได้ตั้งค่า Firebase และใช้ "นำเข้าข่าวตัวอย่าง" ในหลังบ้าน
+// ค่าเริ่มต้นของเว็บ (ชุดเดียวกับ database/seed_current.sql ของระบบ PHP)
+// ใช้เมื่อยังไม่ตั้งค่า Firebase หรือยังไม่ได้ "นำเข้าค่าเริ่มต้น" ในหลังบ้าน
+export const DEFAULT_SETTINGS = {
+  siteName: 'กลุ่มงานบริหารทรัพยากรบุคคล',
+  orgName: 'สำนักงานเขตสุขภาพที่ 1',
+  heroTitle: 'กลุ่มงานบริหารทรัพยากรบุคคล',
+  heroSubtitle: 'หนังสือเวียน ประกาศ และข่าวด้านบุคลากรได้ในที่เดียว',
+  address: '203 ตำบล ริมใต้ อำเภอแม่ริม เชียงใหม่ 50180',
+  phone: '053-890238 , 053-890240 ต่อ 104',
+  email: '',
+  perPage: 10,
+  newDays: 7,
+};
+
+// key = ค่าที่เก็บในช่อง cat ของข่าว (เปลี่ยนชื่อ/สี/ลำดับได้ แต่ key คงที่)
+export const DEFAULT_CATEGORIES = [
+  { key:0, name:'หนังสือเวียนทั่วไป', color:0, order:1, active:true },
+  { key:1, name:'ข่าวประชาสัมพันธ์', color:1, order:2, active:true },
+  { key:2, name:'ข่าวรับสมัครงาน', color:2, order:3, active:true },
+  { key:3, name:'รับสมัครข้าราชการ', color:3, order:4, active:true },
+  { key:4, name:'ข่าวโอนย้ายข้าราชการ', color:4, order:5, active:true },
+];
+
+// grp: quick = การ์ดบริการด่วน, main = เมนูหลัก, service = เมนูบริการ, footer = ลิงก์ท้ายเว็บ
 // url '#' = ยังไม่มีลิงก์จริง
-export const QUICK = [
-  { title:'ระบบการขอใช้ตำแหน่งว่าง', sub:'ตำแหน่งว่าง และติดตาม', icon:'user', color:2, url:'#' },
-  { title:'คำสั่ง', sub:'ย้าย/ปฏิบัติราชการ/โอน/ให้โอน', icon:'calendar', color:0, url:'#' },
-  { title:'ประเมินผลงานวิชาการ', sub:'ระดับ ชำนาญการพิเศษ', icon:'doccheck', color:3, url:'#' },
-  { title:'กรอบอัตรากำลัง', sub:'ตำแหน่งว่าง / แผนอัตรากำลัง', icon:'chart', color:3, url:'#' },
-  { title:'หนังสือต่างๆ', sub:'ถือปฏิบัติ/แนวทาง', icon:'link', color:4, url:'#' },
+const L = (grp, order, title, sub, url, icon, color) => ({ grp, order, title, sub, url, icon, color, active: true });
+export const DEFAULT_LINKS = [
+  L('quick', 1, 'ระบบการขอใช้ตำแหน่งว่าง', 'ตำแหน่งว่าง และติดตาม', '#', 'user', 2),
+  L('quick', 2, 'คำสั่ง', 'ย้าย/ปฏิบัติราชการ/โอน/ให้โอน', '#', 'calendar', 0),
+  L('quick', 3, 'ประเมินผลงานวิชาการ', 'ระดับ ชำนาญการพิเศษ', '#', 'doccheck', 3),
+  L('quick', 4, 'กรอบอัตรากำลัง', 'ตำแหน่งว่าง / แผนอัตรากำลัง', '#', 'chart', 3),
+  L('quick', 5, 'หนังสือต่างๆ', 'ถือปฏิบัติ/แนวทาง', '#', 'link', 4),
+  L('main', 1, 'หน้าแรก', '', 'index.html', 'home', 0),
+  L('main', 2, 'หนังสือเวียน', '', 'index.html#content', 'doc', 0),
+  L('main', 3, 'ย้าย/ปฏิบัติราชการ', '', '#', 'swap', 4),
+  L('main', 4, 'แผนยุทธศาสตร์', '', '#', 'target', 1),
+  L('main', 5, 'Action Plan', '', '#', 'checklist', 2),
+  L('main', 6, 'ผลงานวิชาการ', '', '#', 'award', 3),
+  L('main', 7, 'หลักสูตร อบรม ทุน', '', '#', 'grad', 1),
+  L('main', 8, 'มุมจัดการความรู้ KM', '', '#', 'bulb', 3),
+  L('service', 1, 'แบบฟอร์มดาวน์โหลด', '', '#', 'download', 2),
+  L('service', 2, 'คำถามที่พบบ่อย (FAQ)', '', '#', 'help', 4),
+  L('service', 3, 'ร้องเรียน / แจ้งปัญหา', '', '#', 'chat', 0),
+  L('service', 4, 'ติดต่อเจ้าหน้าที่', '', '#', 'phone', 3),
+  L('footer', 1, 'สำนักงาน ก.พ.', '', 'https://www.ocsc.go.th/', 'link', 0),
+  L('footer', 2, 'นโยบายคุ้มครองข้อมูลส่วนบุคคล', '', '#', 'link', 0),
+  L('footer', 3, 'แผนผังเว็บไซต์', '', '#', 'link', 0),
 ];
-export const MENU = [
-  { group:'เมนูหลัก', items:[
-    { title:'หน้าแรก', icon:'home', color:0, url:'#top' },
-    { title:'หนังสือเวียน', icon:'doc', color:0, url:'#content', current:true },
-    { title:'ย้าย/ปฏิบัติราชการ', icon:'swap', color:4, url:'#' },
-    { title:'แผนยุทธศาสตร์', icon:'target', color:1, url:'#' },
-    { title:'Action Plan', icon:'checklist', color:2, url:'#' },
-    { title:'ผลงานวิชาการ', icon:'award', color:3, url:'#' },
-    { title:'หลักสูตร อบรม ทุน', icon:'grad', color:1, url:'#' },
-    { title:'มุมจัดการความรู้ KM', icon:'bulb', color:3, url:'#' },
-  ]},
-  { group:'บริการ', items:[
-    { title:'แบบฟอร์มดาวน์โหลด', icon:'download', color:2, url:'#' },
-    { title:'คำถามที่พบบ่อย (FAQ)', icon:'help', color:4, url:'#' },
-    { title:'ร้องเรียน / แจ้งปัญหา', icon:'chat', color:0, url:'#' },
-    { title:'ติดต่อเจ้าหน้าที่', icon:'phone', color:3, url:'#' },
-  ]},
-];
-// cat = ลำดับใน CATEGORIES (ui.js), urg '' | 'very' | 'most'
+
+// cat = key ของหมวด, urg '' | 'very' | 'most'
 export const SEED_NEWS = [
   { id:'s1', cat:0, date:'2026-10-14', urg:'', no:'[เลขที่หนังสือ]', from:'กลุ่มงานบรรจุแต่งตั้ง', deadline:'', title:'การปรับปรุงกระบวนการปฏิบัติงานด้านบริหารงานบุคคล กรณีการจัดทำคำสั่งย้าย (กลุ่มงานบรรจุแต่งตั้งจะชี้แจงแนวทางดังกล่าวให้ทราบอีกครั้งภายหลัง)' },
   { id:'s2', cat:0, date:'2026-10-09', urg:'', no:'[เลขที่หนังสือ]', from:'ถึง สำนักงานเขตสุขภาพ', deadline:'', title:'ซักซ้อมความเข้าใจกรณีข้าราชการทุกรายที่บรรจุเข้ารับราชการหรือโอนมาเป็นข้าราชการ ตั้งแต่วันที่ 27 มีนาคม 2540 เป็นต้นมา มีสถานะเป็นสมาชิก กบข. โดยผลของกฎหมาย' },

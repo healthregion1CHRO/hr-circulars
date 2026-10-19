@@ -18,6 +18,8 @@ export function demoBackend(){
       ['demo-3', { email: 'staff2@example.com', name: 'สมหญิง ตัวอย่าง', org: 'กลุ่มงานพัฒนาบุคลากร', status: 'pending', role: 'editor', createdAt: daysAgo(1) }],
       ['demo-4', { email: 'staff3@example.com', name: 'สมศักดิ์ ตัวอย่าง', org: 'โรงพยาบาลตัวอย่าง', status: 'pending', role: 'editor', createdAt: daysAgo(0) }],
     ]),
+    // ว่างไว้ เพื่อให้ลองกด "นำเข้าค่าเริ่มต้น" ในหน้าหมวดข่าว/เมนูและลิงก์/ตั้งค่าเว็บไซต์ได้
+    categories: new Map(), links: new Map(), settings: new Map(),
     audit: new Map([
       ['a1', { uid: 'demo-2', email: 'staff1@example.com', action: 'news.create', target: 's1 ' + SEED_NEWS[0].title, at: daysAgo(5) }],
       ['a2', { uid: me.uid, email: me.email, action: 'user.approve', target: 'staff1@example.com', at: daysAgo(12) }],

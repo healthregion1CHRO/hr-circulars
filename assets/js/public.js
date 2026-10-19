@@ -1,30 +1,57 @@
-// หน้าแรก: ข่าวที่เผยแพร่จาก Firestore (ยังไม่ตั้งค่า Firebase = ข่าวตัวอย่างใน seed.js)
-import { $, esc, clean, icon, CATEGORIES, parse, thaiDate, fiscalYear, initChrome } from './ui.js';
-import { QUICK, MENU, SEED_NEWS } from './seed.js';
+// หน้าแรก: ตั้งค่าเว็บ หมวดข่าว เมนู/ลิงก์ และข่าวที่เผยแพร่ จาก Firestore (ยังไม่ตั้งค่า Firebase = ค่าเริ่มต้นใน seed.js)
+import { $, esc, clean, icon, safeUrl, isDeadLink, parse, thaiDate, fiscalYear, initChrome } from './ui.js';
+import { SEED_NEWS } from './seed.js';
 import { configured, fb } from './fb.js';
+import { loadSite, siteDefaults } from './site.js';
 
-const PER_PAGE = 10;
-const NEW_DAYS = 7;
 const DAY = 86400000;
+let PER_PAGE = 10;
+let NEW_DAYS = 7;
+let CATS = [];            // หมวดที่เปิดใช้งาน เรียงตามลำดับ
+let catIndex = new Map(); // key ของหมวด → ลำดับใน CATS
 
 initChrome();
 
-// การ์ดบริการด่วน + เมนูข้าง
 const ext = u => /^https?:/.test(u) ? ' target="_blank" rel="noopener noreferrer"' : '';
-$('quick').innerHTML = QUICK.map(l =>
-  '<a class="qcard" href="'+esc(l.url)+'"'+ext(l.url)+'><span class="qicon c'+l.color+'">'+icon(l.icon, 28)+'</span><span class="qtext"><strong>'+esc(l.title)+'</strong><span>'+esc(l.sub)+'</span></span></a>'
-).join('');
-$('side').innerHTML = MENU.map((g, gi) =>
-  '<nav class="panel" aria-labelledby="nav-'+gi+'"><h2 class="panel-title" id="nav-'+gi+'">'+esc(g.group)+'</h2>'+
-  g.items.map(l => '<a class="nav-link c'+l.color+'" href="'+esc(l.url)+'"'+(l.current ? ' aria-current="page"' : '')+ext(l.url)+'><span class="nav-ico">'+icon(l.icon)+'</span>'+esc(l.title)+'</a>').join('')+
-  '</nav>'
-).join('');
+const setText = (id, v) => { const el = $(id); if (el) { el.textContent = v; el.hidden = !v; } };
+
+function applySite({ settings: st, categories, links }){
+  PER_PAGE = st.perPage; NEW_DAYS = st.newDays;
+  setText('siteName', st.siteName); setText('orgName', st.orgName);
+  setText('crumbTitle', st.heroTitle); setText('heroTitle', st.heroTitle); setText('heroSub', st.heroSubtitle);
+  setText('footName', [st.siteName, st.orgName].filter(Boolean).join(' '));
+  setText('footAddr', clean(st.address));
+  setText('footContact', [clean(st.phone) && 'โทร ' + clean(st.phone), clean(st.email) && 'อีเมล ' + clean(st.email)].filter(Boolean).join(' · '));
+  document.title = 'หนังสือเวียน ' + st.siteName;
+
+  CATS = categories.filter(c => c.active);
+  catIndex = new Map(CATS.map((c, i) => [c.key, i]));
+
+  const on = links.filter(l => l.active);
+  const grp = g => on.filter(l => l.grp === g);
+  $('quick').innerHTML = grp('quick').map(l => { const u = safeUrl(l.url);
+    return '<a class="qcard" href="'+esc(u)+'"'+ext(u)+'><span class="qicon c'+l.color+'">'+icon(l.icon, 28)+'</span><span class="qtext"><strong>'+esc(l.title)+'</strong><span>'+esc(l.sub)+'</span></span></a>';
+  }).join('');
+  $('quick').hidden = !grp('quick').length;
+  $('side').innerHTML = [['main', 'เมนูหลัก'], ['service', 'บริการ']].map(([g, label]) => {
+    const items = grp(g); if (!items.length) return '';
+    return '<nav class="panel" aria-labelledby="nav-'+g+'"><h2 class="panel-title" id="nav-'+g+'">'+label+'</h2>'+
+      items.map(l => { const u = safeUrl(l.url), cur = l.title === 'หนังสือเวียน';
+        return '<a class="nav-link c'+l.color+'" href="'+esc(u)+'"'+(cur ? ' aria-current="page"' : '')+ext(u)+'><span class="nav-ico">'+icon(l.icon)+'</span>'+esc(l.title)+'</a>';
+      }).join('')+'</nav>';
+  }).join('');
+  // ลิงก์ท้ายเว็บที่ยังไม่มีปลายทางไม่แสดง
+  const foot = grp('footer').filter(l => !isDeadLink(l.url));
+  $('footLinks').innerHTML = foot.map(l => '<a href="'+esc(safeUrl(l.url))+'"'+ext(l.url)+'>'+esc(l.title)+'</a>').join('');
+  $('footLinksCol').hidden = !foot.length;
+}
 
 let NEWS = [];
 let sorted = [];
 const state = { tab:0, urg:'all', q:'', year:'all', page:1 };
 const isNew = it => (Date.now() - parse(it.date).getTime()) / DAY <= NEW_DAYS;
 const hay = it => (it.title+' '+clean(it.no)+' '+clean(it.from)).toLowerCase();
+const catOf = it => CATS[it.ci];
 
 function buildYears(){
   const ys = [...new Set(NEWS.map(n => fiscalYear(n.date)))].sort((a,b) => b - a);
@@ -32,8 +59,8 @@ function buildYears(){
 }
 
 function renderTabs(){
-  $('tabs').innerHTML = CATEGORIES.map((c, i) => {
-    const n = NEWS.filter(x => x.cat === i).length, sel = i === state.tab;
+  $('tabs').innerHTML = CATS.map((c, i) => {
+    const n = NEWS.filter(x => x.ci === i).length, sel = i === state.tab;
     return '<button type="button" role="tab" class="tab c'+c.color+'" data-tab="'+i+'" aria-selected="'+sel+'" tabindex="'+(sel ? 0 : -1)+'"><span class="dot" aria-hidden="true"></span>'+esc(c.name)+' <span class="count">'+n+'</span></button>';
   }).join('');
 }
@@ -41,7 +68,7 @@ function renderTabs(){
 function filtered(){
   const q = state.q.trim().toLowerCase();
   return sorted.filter(it =>
-    it.cat === state.tab &&
+    it.ci === state.tab &&
     (state.urg === 'all' || it.urg === state.urg) &&
     (state.year === 'all' || String(fiscalYear(it.date)) === state.year) &&
     (!q || hay(it).includes(q))
@@ -50,7 +77,7 @@ function filtered(){
 
 function badges(it){
   return '<span class="card-ico">'+icon('doc')+'</span><div class="badges">'+
-    '<span class="badge b-cat">'+esc(CATEGORIES[it.cat].name)+'</span>'+
+    '<span class="badge b-cat">'+esc(catOf(it).name)+'</span>'+
     (it.urg === 'most' ? '<span class="badge b-most">ด่วนที่สุด</span>' : '')+
     (it.urg === 'very' ? '<span class="badge b-very">ด่วนมาก</span>' : '')+
     (isNew(it) ? '<span class="badge b-new">ใหม่</span>' : '')+
@@ -64,7 +91,7 @@ function metaRows(it){
 }
 
 function card(it){
-  return '<article class="card c'+CATEGORIES[it.cat].color+'">'+
+  return '<article class="card c'+catOf(it).color+'">'+
     '<div class="card-top">'+badges(it)+'</div>'+
     '<h3><button type="button" class="card-link" data-id="'+esc(it.id)+'">'+esc(it.title)+'</button></h3>'+
     '<dl class="meta">'+metaRows(it)+'</dl>'+
@@ -97,7 +124,7 @@ function render(){
 
 function openDetail(id, opener){
   const it = NEWS.find(n => String(n.id) === id); if (!it) return;
-  $('dTop').className = 'card-top c'+CATEGORIES[it.cat].color;
+  $('dTop').className = 'card-top c'+catOf(it).color;
   $('dTop').innerHTML = badges(it);
   $('dTitle').textContent = it.title;
   $('dMeta').innerHTML = metaRows(it)+'<dt>วันที่</dt><dd>'+thaiDate(it.date)+'</dd><dt>ปีงบประมาณ</dt><dd>'+fiscalYear(it.date)+'</dd>';
@@ -115,8 +142,8 @@ $('detail').addEventListener('close', () => $('detail').opener?.focus());
 function setTab(i){ state.tab = i; state.page = 1; render(); $('tabs').querySelector('[aria-selected="true"]')?.focus(); }
 $('tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (b) setTab(+b.dataset.tab); });
 $('tabs').addEventListener('keydown', e => {
-  if (!['ArrowLeft','ArrowRight'].includes(e.key)) return;
-  const n = CATEGORIES.length;
+  if (!['ArrowLeft','ArrowRight'].includes(e.key) || !CATS.length) return;
+  const n = CATS.length;
   setTab((state.tab + (e.key === 'ArrowRight' ? 1 : -1) + n) % n);
 });
 $('pills').addEventListener('click', e => {
@@ -136,7 +163,7 @@ $('gsearch').addEventListener('submit', e => {
   e.preventDefault();
   const raw = $('gq').value.trim().slice(0, 100), q = raw.toLowerCase(); if (!q) return;
   const hit = sorted.find(it => hay(it).includes(q));
-  if (hit) state.tab = hit.cat;
+  if (hit) state.tab = hit.ci;
   state.q = raw; state.page = 1;
   $('q').value = raw; $('gq').value = ''; render();
   $('content').focus({preventScroll:true}); $('content').scrollIntoView({behavior:'smooth'});
@@ -148,15 +175,15 @@ $('clearSearch').addEventListener('click', () => {
   render(); $('q').focus();
 });
 
-// ข้อมูลจาก Firestore ตรวจรูปแบบอีกชั้นก่อนแสดง
+// ข้อมูลจาก Firestore ตรวจรูปแบบอีกชั้นก่อนแสดง; ข่าวในหมวดที่ปิดใช้งานไม่แสดง
 function normalize(id, d){
   const s = v => typeof v === 'string' ? v : '';
-  if (!Number.isInteger(d.cat) || !CATEGORIES[d.cat] || !/^\d{4}-\d{2}-\d{2}$/.test(s(d.date)) || !s(d.title)) return null;
-  return { id, cat:d.cat, date:d.date, urg:['very','most'].includes(d.urg) ? d.urg : '', no:s(d.no), from:s(d.from), deadline:s(d.deadline), title:d.title };
+  if (!Number.isInteger(d.cat) || !catIndex.has(d.cat) || !/^\d{4}-\d{2}-\d{2}$/.test(s(d.date)) || !s(d.title)) return null;
+  return { id, ci:catIndex.get(d.cat), date:d.date, urg:['very','most'].includes(d.urg) ? d.urg : '', no:s(d.no), from:s(d.from), deadline:s(d.deadline), title:d.title };
 }
 
 async function loadNews(){
-  if (!configured) return SEED_NEWS;
+  if (!configured) return SEED_NEWS.map(n => normalize(n.id, n)).filter(Boolean);
   const { db, F } = await fb();
   // ต้องกรอง published == true เสมอ กฎ Firestore อนุญาตให้คนทั่วไปอ่านเฉพาะข่าวที่เผยแพร่
   const snap = await F.getDocs(F.query(F.collection(db, 'news'), F.where('published', '==', true)));
@@ -167,13 +194,15 @@ function start(list){
   NEWS = list;
   sorted = NEWS.slice().sort((a,b) => b.date.localeCompare(a.date) || String(b.id).localeCompare(String(a.id)));
   $('lastUpdate').textContent = sorted.length ? thaiDate(sorted[0].date) : '-';
+  if (state.tab >= CATS.length) state.tab = 0;
   buildYears();
   render();
 }
 
-start([]);
 $('empty').textContent = 'กำลังโหลดข่าว…'; $('empty').hidden = false;
-loadNews().then(list => {
+loadSite().catch(() => siteDefaults()).then(async site => {
+  applySite(site);
+  const list = await loadNews();
   $('empty').textContent = 'ไม่พบรายการที่ตรงกับเงื่อนไข ลองเปลี่ยนคำค้นหรือตัวกรอง';
   start(list);
 }).catch(() => {

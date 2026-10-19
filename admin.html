@@ -41,6 +41,9 @@
     <a class="nav" href="#overview" data-view="overview" aria-current="page"><span data-icon="home" data-size="18"></span>ภาพรวม</a>
     <a class="nav" href="#news" data-view="news"><span data-icon="doc" data-size="18"></span>ข่าว/หนังสือเวียน</a>
     <span class="group" data-admin>ผู้ดูแลระบบ</span>
+    <a class="nav" href="#cats" data-view="cats" data-admin><span data-icon="tag" data-size="18"></span>หมวดข่าว</a>
+    <a class="nav" href="#links" data-view="links" data-admin><span data-icon="link" data-size="18"></span>เมนูและลิงก์</a>
+    <a class="nav" href="#settings" data-view="settings" data-admin><span data-icon="settings" data-size="18"></span>ตั้งค่าเว็บไซต์</a>
     <a class="nav" href="#users" data-view="users" data-admin><span data-icon="users" data-size="18"></span>ผู้ใช้งาน</a>
     <a class="nav" href="#audit" data-view="audit" data-admin><span data-icon="shield" data-size="18"></span>บันทึกความปลอดภัย</a>
     <span class="group">บัญชี</span>
@@ -113,6 +116,58 @@
         </div>
       </section>
 
+      <!-- ค่าเริ่มต้นยังไม่ถูกบันทึกลง Firestore (แสดงในหน้า หมวดข่าว/เมนูและลิงก์/ตั้งค่าเว็บไซต์) -->
+      <div class="alert alert-warn" id="defaultsBox" hidden>
+        <strong>ยังใช้ค่าเริ่มต้นจากโค้ด</strong>
+        <p>หน้าเว็บแสดงค่าเริ่มต้นอยู่ กด "นำเข้าค่าเริ่มต้น" เพื่อบันทึกหมวดข่าว เมนู/ลิงก์ และการตั้งค่าลงฐานข้อมูล แล้วจึงแก้ไขได้</p>
+        <p><button type="button" class="btn btn-sm" id="importDefaults">นำเข้าค่าเริ่มต้น</button></p>
+      </div>
+
+      <!-- หมวดข่าว -->
+      <section class="view" id="v-cats" hidden>
+        <div class="toolbar"><p class="muted small">ลำดับน้อยแสดงก่อน · ปิดใช้งานแล้ว แท็บและข่าวในหมวดนั้นจะไม่แสดงบนหน้าเว็บ · ลบได้เมื่อไม่มีข่าวในหมวด</p><button type="button" class="btn" id="addCat">+ เพิ่มหมวด</button></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ลำดับ</th><th>ชื่อหมวด</th><th>สี</th><th>จำนวนข่าว</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+            <tbody id="catsBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- เมนูและลิงก์ -->
+      <section class="view" id="v-links" hidden>
+        <div class="toolbar">
+          <div class="field"><label class="label" for="lgrp">กลุ่ม</label><select class="input" id="lgrp"></select></div>
+          <button type="button" class="btn" id="addLink">+ เพิ่มลิงก์</button>
+        </div>
+        <p class="muted small">ลิงก์ที่ใส่ได้: https://… , #ชื่อส่วน หรือไฟล์ .html ในเว็บนี้ · ใส่ # = ยังไม่มีลิงก์ (ลิงก์ท้ายเว็บที่เป็น # จะไม่แสดง)</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ลำดับ</th><th>ชื่อ</th><th>ลิงก์</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+            <tbody id="linksBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ตั้งค่าเว็บไซต์ -->
+      <section class="view" id="v-settings" hidden>
+        <form class="panel form" id="settingsForm" novalidate>
+          <p class="alert" id="setMsg" role="status" hidden></p>
+          <div class="form-grid">
+            <div class="field"><label class="label" for="sSite">ชื่อหน่วยงาน (หัวเว็บ)</label><input class="input" id="sSite" maxlength="100" required></div>
+            <div class="field"><label class="label" for="sOrg">สังกัด</label><input class="input" id="sOrg" maxlength="150"></div>
+            <div class="field"><label class="label" for="sHero">หัวข้อหลัก (แถบสีชมพู)</label><input class="input" id="sHero" maxlength="150" required></div>
+            <div class="field"><label class="label" for="sHeroSub">คำอธิบายใต้หัวข้อ</label><input class="input" id="sHeroSub" maxlength="300"></div>
+            <div class="field full"><label class="label" for="sAddr">ที่อยู่ (ท้ายเว็บ)</label><input class="input" id="sAddr" maxlength="300"></div>
+            <div class="field"><label class="label" for="sPhone">โทรศัพท์</label><input class="input" id="sPhone" maxlength="100"></div>
+            <div class="field"><label class="label" for="sEmail">อีเมล</label><input class="input" id="sEmail" type="email" maxlength="120"></div>
+            <div class="field"><label class="label" for="sPer">จำนวนข่าวต่อหน้า</label><input class="input" id="sPer" type="number" min="1" max="48" step="1" required></div>
+            <div class="field"><label class="label" for="sNew">ป้าย "ใหม่" แสดงกี่วัน</label><input class="input" id="sNew" type="number" min="0" max="60" step="1" required></div>
+          </div>
+          <div class="row-actions"><button type="submit" class="btn" id="setSave">บันทึกการตั้งค่า</button></div>
+        </form>
+      </section>
+
       <!-- ผู้ใช้งาน -->
       <section class="view" id="v-users" hidden>
         <p class="muted small" id="pendingCount"></p>
@@ -180,14 +235,53 @@
   </form>
 </dialog>
 
+<dialog class="dlg" id="catDlg" aria-labelledby="catTitle">
+  <form class="dlg-in form" id="catForm" novalidate>
+    <h2 class="kanit" id="catTitle">เพิ่มหมวด</h2>
+    <p class="alert" id="catMsg" role="alert" hidden></p>
+    <div class="form-grid">
+      <div class="field full"><label class="label" for="cName">ชื่อหมวด</label><input class="input" id="cName" maxlength="60" required></div>
+      <div class="field"><label class="label" for="cColor">สี</label><select class="input" id="cColor"></select></div>
+      <div class="field"><label class="label" for="cOrder">ลำดับ</label><input class="input" id="cOrder" type="number" min="-1000" max="1000" step="1"></div>
+      <label class="check field full"><input type="checkbox" id="cActive"> <span>เปิดใช้งาน (แสดงบนหน้าเว็บ)</span></label>
+    </div>
+    <div class="dlg-foot">
+      <button type="button" class="btn btn-soft" data-close>ยกเลิก</button>
+      <button type="submit" class="btn" id="catSave">บันทึก</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="dlg" id="linkDlg" aria-labelledby="linkTitle">
+  <form class="dlg-in form" id="linkForm" novalidate>
+    <h2 class="kanit" id="linkTitle">เพิ่มลิงก์</h2>
+    <p class="alert" id="linkMsg" role="alert" hidden></p>
+    <div class="form-grid">
+      <div class="field"><label class="label" for="kGrp">กลุ่ม</label><select class="input" id="kGrp"></select></div>
+      <div class="field"><label class="label" for="kOrder">ลำดับ</label><input class="input" id="kOrder" type="number" min="-1000" max="1000" step="1"></div>
+      <div class="field full"><label class="label" for="kTitle">ชื่อ</label><input class="input" id="kTitle" maxlength="80" required></div>
+      <div class="field full"><label class="label" for="kSub">คำอธิบายสั้น (เฉพาะการ์ดบริการด่วน)</label><input class="input" id="kSub" maxlength="120"></div>
+      <div class="field full"><label class="label" for="kUrl">ลิงก์</label><input class="input" id="kUrl" maxlength="500" placeholder="https://… หรือ # ถ้ายังไม่มี" required><span class="hint">https://… , #ชื่อส่วน หรือไฟล์ .html ในเว็บนี้</span></div>
+      <div class="field"><label class="label" for="kIcon">ไอคอน</label><select class="input" id="kIcon"></select></div>
+      <div class="field"><label class="label" for="kColor">สี</label><select class="input" id="kColor"></select></div>
+      <div class="field full"><span class="label">ตัวอย่าง</span><span class="stat" id="kPreview"></span></div>
+      <label class="check field full"><input type="checkbox" id="kActive"> <span>เปิดใช้งาน (แสดงบนหน้าเว็บ)</span></label>
+    </div>
+    <div class="dlg-foot">
+      <button type="button" class="btn btn-soft" data-close>ยกเลิก</button>
+      <button type="submit" class="btn" id="linkSave">บันทึก</button>
+    </div>
+  </form>
+</dialog>
+
 <dialog class="dlg" id="delDlg" aria-labelledby="delTitle">
   <div class="dlg-in">
-    <h2 class="kanit" id="delTitle">ลบข่าวนี้?</h2>
+    <h2 class="kanit" id="delTitle">ลบรายการนี้?</h2>
     <p id="delText"></p>
-    <p class="hint">ลบแล้วกู้คืนไม่ได้ ถ้าเพียงไม่ต้องการให้แสดงบนเว็บ ให้กดปุ่มซ่อนแทน</p>
+    <p class="hint" id="delHint">ลบแล้วกู้คืนไม่ได้ ถ้าเพียงไม่ต้องการให้แสดงบนเว็บ ให้กดปุ่มซ่อนแทน</p>
     <div class="dlg-foot">
       <button type="button" class="btn btn-soft" id="delCancel">ยกเลิก</button>
-      <button type="button" class="btn btn-danger" id="delOk">ลบข่าว</button>
+      <button type="button" class="btn btn-danger" id="delOk">ลบ</button>
     </div>
   </div>
 </dialog>

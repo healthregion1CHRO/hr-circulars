@@ -27,11 +27,80 @@ service cloud.firestore {
       return v is string && v.size() >= minLen && v.size() <= maxLen;
     }
 
+    // ผู้แก้ไขล่าสุดต้องเป็นตัวเอง และเวลาต้องเป็นเวลาเซิร์ฟเวอร์ (ปลอมไม่ได้)
+    function stamped(d) {
+      return d.updatedBy == request.auth.uid && d.updatedAt == request.time;
+    }
+    function color(v) {
+      return v is int && v >= 0 && v <= 4;
+    }
+    function order(v) {
+      return v is int && v >= -1000 && v <= 1000;
+    }
+
+    // ---------- ตั้งค่าเว็บไซต์ (เอกสารเดียว settings/site) ----------
+    match /settings/{docId} {
+      allow get, list: if true;
+      allow create, update: if isAdmin() && docId == 'site'
+        && request.resource.data.keys().hasOnly(['siteName', 'orgName', 'heroTitle', 'heroSubtitle', 'address', 'phone', 'email', 'perPage', 'newDays', 'updatedBy', 'updatedAt'])
+        && request.resource.data.keys().hasAll(['siteName', 'orgName', 'heroTitle', 'heroSubtitle', 'address', 'phone', 'email', 'perPage', 'newDays', 'updatedBy', 'updatedAt'])
+        && str(request.resource.data.siteName, 1, 100)
+        && str(request.resource.data.orgName, 0, 150)
+        && str(request.resource.data.heroTitle, 1, 150)
+        && str(request.resource.data.heroSubtitle, 0, 300)
+        && str(request.resource.data.address, 0, 300)
+        && str(request.resource.data.phone, 0, 100)
+        && str(request.resource.data.email, 0, 120)
+        && request.resource.data.perPage is int && request.resource.data.perPage >= 1 && request.resource.data.perPage <= 48
+        && request.resource.data.newDays is int && request.resource.data.newDays >= 0 && request.resource.data.newDays <= 60
+        && stamped(request.resource.data);
+      allow delete: if false;
+    }
+
+    // ---------- หมวดข่าว (id เอกสาร = key ที่ข่าวอ้างถึง) ----------
+    match /categories/{catId} {
+      allow get, list: if true;
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['key', 'name', 'color', 'order', 'active', 'updatedBy', 'updatedAt'])
+        && request.resource.data.keys().hasAll(['key', 'name', 'color', 'order', 'active', 'updatedBy', 'updatedAt'])
+        && request.resource.data.key is int && request.resource.data.key >= 0 && request.resource.data.key <= 99
+        && catId == string(request.resource.data.key)
+        && str(request.resource.data.name, 1, 60)
+        && color(request.resource.data.color)
+        && order(request.resource.data.order)
+        && request.resource.data.active is bool
+        && stamped(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // ---------- เมนูและลิงก์ ----------
+    match /links/{linkId} {
+      allow get, list: if true;
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['grp', 'title', 'sub', 'url', 'icon', 'color', 'order', 'active', 'updatedBy', 'updatedAt'])
+        && request.resource.data.keys().hasAll(['grp', 'title', 'sub', 'url', 'icon', 'color', 'order', 'active', 'updatedBy', 'updatedAt'])
+        && request.resource.data.grp in ['quick', 'main', 'service', 'footer']
+        && str(request.resource.data.title, 1, 80)
+        && str(request.resource.data.sub, 0, 120)
+        // ลิงก์ได้เฉพาะ https:// http:// , #anchor หรือไฟล์ .html ในเว็บนี้ (กัน javascript: data: และ ../)
+        && str(request.resource.data.url, 1, 500)
+        && request.resource.data.url.matches('^(https?://[^\\s<>]+|#[A-Za-z0-9_-]*|[A-Za-z0-9_./-]+[.]html(#[A-Za-z0-9_-]*)?)$')
+        && !request.resource.data.url.matches('.*[.][.].*')
+        && !request.resource.data.url.matches('.*["].*')
+        && !request.resource.data.url.matches(".*['].*")
+        && request.resource.data.icon in ['user', 'calendar', 'doccheck', 'chart', 'home', 'doc', 'swap', 'target', 'checklist', 'award', 'grad', 'bulb', 'download', 'help', 'chat', 'phone', 'link', 'users', 'shield', 'search']
+        && color(request.resource.data.color)
+        && order(request.resource.data.order)
+        && request.resource.data.active is bool
+        && stamped(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
     // ---------- ข่าว ----------
     function validNews(d) {
       return d.keys().hasOnly(['cat', 'title', 'no', 'from', 'urg', 'date', 'deadline', 'published', 'createdBy', 'createdAt', 'updatedBy', 'updatedByName', 'updatedAt'])
         && d.keys().hasAll(['cat', 'title', 'no', 'from', 'urg', 'date', 'deadline', 'published', 'createdBy', 'createdAt', 'updatedBy', 'updatedByName', 'updatedAt'])
-        && d.cat is int && d.cat >= 0 && d.cat <= 4
+        && d.cat is int && d.cat >= 0 && d.cat <= 99
         && str(d.title, 1, 300)
         && str(d.no, 0, 120)
         && str(d.from, 0, 200)
